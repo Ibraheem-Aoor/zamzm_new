@@ -15,6 +15,7 @@ class RouteServe
      */
     public function handle($request, Closure $next)
     {
+        return $next($request);
         if (\Schema::hasTable('sm_general_settings') && \Schema::hasTable('users')) {
             $data = \DB::table('sm_general_settings')->first();
             if (@$data->system_purchase_code !="") {
