@@ -159,7 +159,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        // Barryvdh\DomPDF\ServiceProvider::class,
       
         // RobinCSamuel\LaravelMsg91\LaravelMsg91ServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
@@ -231,7 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
     
         // 'LaravelMsg91' => RobinCSamuel\LaravelMsg91\Facades\LaravelMsg91::class,
         'Carbon' => 'Carbon\Carbon',
