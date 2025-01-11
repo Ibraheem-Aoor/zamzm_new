@@ -4055,7 +4055,7 @@ if (!function_exists('defaultLogo')) {
         if ($path && file_exists($path)) {
             return asset($path);
         } else {
-            return asset('public/uploads/settings/logo.png');
+            return asset('public/uploads/settings/logo.png?v=1.0.0');
         }
     }
 }
