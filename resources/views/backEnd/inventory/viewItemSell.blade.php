@@ -47,7 +47,7 @@
                                         @else
                                         <label for="companyLogo" class="company-logo">
                                             <i class="ti-image"></i> 
-                                            <img src="{{ asset('public/uploads/settings/logo_new.png?v=1.0.0')}}" alt="">
+                                            <img src="{{ asset('public/uploads/settings/logo_new.png')}}" alt="">
                                         </label>
                                         <input id="companyLogo" type="file"/>
                                         @endif

@@ -4055,7 +4055,7 @@ if (!function_exists('defaultLogo')) {
         if ($path && file_exists($path)) {
             return asset($path);
         } else {
-            return asset('public/uploads/settings/logo_new.png?v=1.0.0');
+            return asset('public/uploads/settings/logo_new.png');
         }
     }
 }
@@ -4214,7 +4214,7 @@ if (!function_exists('get_logo')) {
         if (!empty($logoPath) && file_exists(public_path($logoPath))) {
             return asset($logoPath);
         } else {
-            return asset('public/uploads/settings/logo_new.png?v=1.0.0');
+            return asset('public/uploads/settings/logo_new.png');
         }
     }
 }

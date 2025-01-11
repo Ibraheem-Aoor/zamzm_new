@@ -1,7 +1,7 @@
 <?php
 $setting = generalSetting();
 if(isset($setting->copyright_text)){ generalSetting()->copyright_text = $setting->copyright_text; }else{ generalSetting()->copyright_text =  "Copyright © " . date('Y') . " All rights reserved | This application is made with by Codethemes"; }
-if(isset($setting->logo)) { generalSetting()->logo = $setting->logo; } else{ generalSetting()->logo = 'public/uploads/settings/logo_new.png?v=1.0.0'; }
+if(isset($setting->logo)) { generalSetting()->logo = $setting->logo; } else{ generalSetting()->logo = 'public/uploads/settings/logo_new.png'; }
 
 if(isset($setting->favicon)) { generalSetting()->favicon = $setting->favicon; } else{ generalSetting()->favicon = 'public/backEnd/img/favicon.png'; }
  

@@ -81,7 +81,7 @@
     <div class="shared-link-container">
         <div class="shared-link-content-container">
             <div class="company_logo">
-                <img src="{{  asset(schoolConfig()->logo ? schoolConfig()->logo : 'public/uploads/settings/logo_new.png?v=1.0.0') }}" alt="logo" style="max-width:180px">
+                <img src="{{  asset(schoolConfig()->logo ? schoolConfig()->logo : 'public/uploads/settings/logo_new.png') }}" alt="logo" style="max-width:180px">
             </div>
             <h2 class="section_title">{{ $sharedContent->title }}</h2>
             <div class="value_grid">
