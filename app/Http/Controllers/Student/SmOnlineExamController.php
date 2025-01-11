@@ -146,6 +146,7 @@ class SmOnlineExamController extends Controller
 
         } catch (\Exception $e) {
             Toastr::error('Operation Failed', 'Failed');
+            Log::error("File: " . $e->getFile() . "Line: " . $e->getLine() . "Message: " . $e->getMessage());
             return redirect()->back();
         }
     }
