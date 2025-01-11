@@ -4214,7 +4214,7 @@ if (!function_exists('get_logo')) {
         if (!empty($logoPath) && file_exists(public_path($logoPath))) {
             return asset($logoPath);
         } else {
-            return asset('public/uploads/settings/logo.png');
+            return asset('public/uploads/settings/logo.png?v=1.0.0');
         }
     }
 }

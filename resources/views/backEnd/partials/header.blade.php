@@ -105,7 +105,7 @@ if (empty(color_theme())) {
         if (file_exists($generalSetting->logo)) {
             $tt = file_get_contents(base_path($generalSetting->logo));
         } else {
-            $tt = file_get_contents(base_path('public/uploads/settings/logo.png'));
+            $tt = file_get_contents(base_path('public/uploads/settings/logo.png?v=1.0.0'));
         }
     @endphp
 <input type="text" hidden value="{{ base64_encode($tt) }}" id="logo_img">

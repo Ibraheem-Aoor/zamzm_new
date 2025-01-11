@@ -35,7 +35,7 @@
                         @if (!is_null($generalSetting->logo))
                             <img src="{{ asset($generalSetting->logo) }}" alt="logo">
                         @else
-                            <img src="{{ asset('public/uploads/settings/logo.png') }}" alt="logo">
+                            <img src="{{ asset('public/uploads/settings/logo.png?v=1.0.0') }}" alt="logo">
                         @endif
                     </a>
                 </div>

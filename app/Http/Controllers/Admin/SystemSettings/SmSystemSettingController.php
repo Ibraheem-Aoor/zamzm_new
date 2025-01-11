@@ -1276,7 +1276,7 @@ class SmSystemSettingController extends Controller
                 ->where('school_id', Auth::user()->school_id)
                 ->where('type', 'I')
                 ->get();
-            
+
             
             return view('backEnd.systemSettings.updateGeneralSettings', compact('editData', 'session_ids', 'dateFormats', 'languages', 'countries', 'currencies', 'academic_years', 'time_zones', 'weekends', 'sell_heads'));
         } catch (\Exception $e) {
@@ -1573,6 +1573,7 @@ class SmSystemSettingController extends Controller
                 return redirect()->back();
             }
         } catch (\Exception $e) {
+            Log::error("File: " . $e->getFile() . "Line: " . $e->getLine() . "Message: " . $e->getMessage());
             Toastr::error('Operation Failed', 'Failed');
             return redirect()->back();
         }

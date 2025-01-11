@@ -140,7 +140,7 @@ class CreateSmGeneralSettingsTable extends Migration
         DB::table('sm_general_settings')->insert([
             [
                 'copyright_text' => "Copyright © " . date('Y') . " All rights reserved | This application is made with by Codethemes",
-                'logo' => 'public/uploads/settings/logo.png',
+                'logo' => 'public/uploads/settings/logo.png?v=1.0.0',
                 'favicon' => 'public/uploads/settings/favicon.png',
                 'phone' => '+96897002784',
                 'school_code' => '12345678',

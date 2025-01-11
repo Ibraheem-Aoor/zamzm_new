@@ -27,7 +27,7 @@ class SmGeneralSettingsFactory extends Factory
                 'time_zone_id' => 51,
                 'system_domain' => url('/'),              
                 'income_head_id'=>"1",
-                'logo' => 'public/uploads/settings/logo.png',
+                'logo' => 'public/uploads/settings/logo.png?v=1.0.0',
                 'favicon' => 'public/uploads/settings/favicon.png',
         ];
     }

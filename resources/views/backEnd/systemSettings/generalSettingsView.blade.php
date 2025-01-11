@@ -42,7 +42,7 @@
                                                       
                                 <img id="upload_logo_preview" class="img-fluid Img-100" src="{{asset($editData->logo)}}" alt="" >
                             @else
-                                <img id="upload_logo_preview" class="img-fluid" src="{{asset('public/uploads/settings/logo.png')}}" alt="">
+                                <img id="upload_logo_preview" class="img-fluid" src="{{asset('public/uploads/settings/logo.png?v=1.0.0')}}" alt="">
                             @endif
                             </div>
 
