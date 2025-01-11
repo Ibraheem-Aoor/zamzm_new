@@ -1,4 +1,5 @@
 <?php
-    return [    "No Data Found" => "No Data Found",
-        ]
+    return [
+        "No Data Found" => "لم يتم العثور على بيانات",
+    ]
 ?>

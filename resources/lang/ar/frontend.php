@@ -1,6 +1,6 @@
 <?php
-    return [    
-        "Hour" => "Hour",
-        "Hours" => "Hours",
-    ]
-?>
+return [
+    'Hour' => 'ساعة',
+    'Hours' => ' ساعات'
+]
+    ?>
