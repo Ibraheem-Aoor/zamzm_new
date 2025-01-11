@@ -16,7 +16,7 @@
 <nav id="sidebar">
     <div class="sidebar-header update_sidebar">
         <a href="{{url('/')}}">
-            <img  src="{{ file_exists(@generalSetting()->logo) ? asset(generalSetting()->logo) : asset('public/uploads/settings/logo.png?v=1.0.0') }}" alt="logo">
+            <img  src="{{ file_exists(@generalSetting()->logo) ? asset(generalSetting()->logo) : asset('public/uploads/settings/logo_new.png?v=1.0.0') }}" alt="logo">
         </a>
         <a id="close_sidebar" class="d-lg-none">
             <i class="ti-close"></i>

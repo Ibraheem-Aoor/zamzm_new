@@ -10,7 +10,7 @@ $setting_info = generalSetting();
                 @if(! is_null($setting_info->logo))
                         <img class="logo-img" src="{{ asset($setting_info->logo)}}" alt="{{$setting_info->school_name}}"> 
                     @else
-                            <img class="logo-img" src="{{ asset('public/uploads/settings/logo.png?v=1.0.0')}}" alt="logo"> 
+                            <img class="logo-img" src="{{ asset('public/uploads/settings/logo_new.png?v=1.0.0')}}" alt="logo"> 
                     @endif
                 </div>
                 <div class="ml-30">

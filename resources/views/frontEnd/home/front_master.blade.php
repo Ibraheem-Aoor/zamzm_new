@@ -95,7 +95,7 @@
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand" href="{{ url('/') }}/home">
                         <img class="w-75"
-                            src="{{ asset($setting->logo ? $setting->logo : 'public/uploads/settings/logo.png?v=1.0.0') }}"
+                            src="{{ asset($setting->logo ? $setting->logo : 'public/uploads/settings/logo_new.png?v=1.0.0') }}"
                             alt="Infix Logo" style="max-width: 150px;">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
