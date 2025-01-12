@@ -451,6 +451,7 @@ class SmQuestionBankController extends Controller
                         return redirect()->back();
                     } catch (\Exception $e) {
                         DB::rollBack();
+                        dd($e); 
                         Toastr::error('Operation Failed', 'Failed');
                         return redirect()->back();
                     }
