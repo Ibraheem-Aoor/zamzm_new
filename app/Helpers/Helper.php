@@ -445,6 +445,9 @@ if (!function_exists('userPermission')) {
 if (!function_exists('moduleStatusCheck')) {
     function moduleStatusCheck($module)
     {
+        if($module == 'MultipleImageQuestion'){
+            return true;
+        }
         try {
             $all_module = session()->get('all_module');
             $moduleStatus = true;
