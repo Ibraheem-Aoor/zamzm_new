@@ -118,7 +118,7 @@ class SmQuestionBankController extends Controller
 
                     $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
                     $file = $request->file('question_image');
-                    $fileSize =  filesize($file);
+                    $fileSize = filesize($file);
                     $fileSizeKb = ($fileSize / 1000000);
                     if ($fileSizeKb >= $maxFileSize) {
                         Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
@@ -126,7 +126,7 @@ class SmQuestionBankController extends Controller
                     }
 
 
-                    if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    if (($request->file('question_image') != "") && (in_array($file->getMimeType(), $imagemimes))) {
                         $image_info = getimagesize($request->file('question_image'));
                         if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
@@ -173,7 +173,7 @@ class SmQuestionBankController extends Controller
 
                             $file = $request->file('images');
                             $fileName = "";
-                            if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
+                            if (($file[$key] != "") && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                 $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
                                 $file[$key]->move('public/uploads/upload_contents/', $fileName);
                                 $fileName = 'public/uploads/upload_contents/' . $fileName;
@@ -271,12 +271,12 @@ class SmQuestionBankController extends Controller
     {
 
         if (moduleStatusCheck('University')) {
-            return   $this->universityQuestionBankStore($request);
+            return $this->universityQuestionBankStore($request);
         } else {
 
             try {
 
-                if ($request->question_type != 'M' && $request->question_type != 'MI') {
+                if ($request->question_type != 'M' && $request->question_type != 'MI' && $request->question_type != 'VI') {
                     foreach ($request->section as $section) {
                         $online_question = new SmQuestionBank();
                         $online_question->type = $request->question_type;
@@ -329,7 +329,7 @@ class SmQuestionBankController extends Controller
 
                         $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
                         $file = $request->file('question_image');
-                        $fileSize =  filesize($file);
+                        $fileSize = filesize($file);
                         $fileSizeKb = ($fileSize / 1000000);
                         if ($fileSizeKb >= $maxFileSize) {
                             Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
@@ -337,7 +337,7 @@ class SmQuestionBankController extends Controller
                         }
 
 
-                        if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                        if (($request->file('question_image') != "") && (in_array($file->getMimeType(), $imagemimes))) {
                             $image_info = getimagesize($request->file('question_image'));
                             if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                                 $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
@@ -350,6 +350,9 @@ class SmQuestionBankController extends Controller
                                     ->withInput($request->input());
                             }
                         }
+
+                       
+
                         foreach ($request->section as $section) {
                             $online_question = new SmQuestionBank();
                             $online_question->type = $request->question_type;
@@ -360,6 +363,7 @@ class SmQuestionBankController extends Controller
                             $online_question->question = $request->question;
                             $online_question->answer_type = $request->answer_type;
                             $online_question->question_image = $fileName;
+                            $online_question->question_video = $videoFileName;
                             if ($request->question_type == 'MI') {
                                 $online_question->number_of_option = $request->number_of_optionImg;
                             } else {
@@ -381,7 +385,7 @@ class SmQuestionBankController extends Controller
 
                                 $file = $request->file('images');
                                 $fileName = "";
-                                if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
+                                if (($file[$key] != "") && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                     $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
                                     $file[$key]->move('public/uploads/upload_contents/', $fileName);
                                     $fileName = 'public/uploads/upload_contents/' . $fileName;
@@ -409,13 +413,26 @@ class SmQuestionBankController extends Controller
                     return redirect()->back();
                 } else {
                     DB::beginTransaction();
-                
+
                     try {
+                        if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
+                            Schema::table('sm_question_banks', function ($table) {
+                                $table->mediumText('question_video')->nullable();
+                            });
+                        }
+                        $file = $request->file('question_video');
+                        if (($request->file('question_video') != "") ) {
+                            $videoFileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                            $file->move('public/uploads/upload_contents/', $videoFileName);
+                            $videoFileName = 'public/uploads/upload_contents/' . $videoFileName;
+                        }
+
                         foreach ($request->section as $section) {
                             $online_question = new SmQuestionBank();
                             $online_question->type = $request->question_type;
                             $online_question->q_group_id = $request->group;
                             $online_question->class_id = $request->class;
+                            $online_question->question_video = $videoFileName;
                             $online_question->section_id = $section;
                             $online_question->marks = $request->marks;
                             $online_question->question = $request->question;
@@ -423,7 +440,7 @@ class SmQuestionBankController extends Controller
                             $online_question->school_id = Auth::user()->school_id;
                             $online_question->academic_id = getAcademicId();
                             $online_question->save();
-                
+
                             if (isset($request->option)) {
                                 $i = 0;
                                 foreach ($request->option as $option) {
@@ -434,29 +451,29 @@ class SmQuestionBankController extends Controller
                                     $online_question_option->title = $option;
                                     $online_question_option->school_id = Auth::user()->school_id;
                                     $online_question_option->academic_id = getAcademicId();
-                
+
                                     if (isset($request->$option_check)) {
                                         $online_question_option->status = 1;
                                     } else {
                                         $online_question_option->status = 0;
                                     }
-                
+
                                     $online_question_option->save();
                                 }
                             }
                         }
-                
+
                         DB::commit();
                         Toastr::success('Operation successful', 'Success');
                         return redirect()->back();
                     } catch (\Exception $e) {
                         DB::rollBack();
-                        dd($e); 
+                        dd($e);
                         Toastr::error('Operation Failed', 'Failed');
                         return redirect()->back();
                     }
                 }
-                
+
             } catch (\Exception $e) {
 
                 Toastr::error('Operation Failed', 'Failed');
@@ -471,11 +488,11 @@ class SmQuestionBankController extends Controller
         try {
             $levels = SmQuestionLevel::get();
             $groups = SmQuestionGroup::get();
-            $banks  = SmQuestionBank::get();
-            $bank   = SmQuestionBank::find($id);
+            $banks = SmQuestionBank::get();
+            $bank = SmQuestionBank::find($id);
             if (teacherAccess()) {
                 $teacher_info = SmStaff::where('user_id', Auth::user()->id)->first();
-                $classes  = $teacher_info->classes;
+                $classes = $teacher_info->classes;
             } else {
                 $classes = SmClass::get();
             }
@@ -558,7 +575,7 @@ class SmQuestionBankController extends Controller
 
                     $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
                     $file = $request->file('question_image');
-                    $fileSize =  filesize($file);
+                    $fileSize = filesize($file);
                     $fileSizeKb = ($fileSize / 1000000);
                     if ($fileSizeKb >= $maxFileSize) {
                         Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
@@ -568,7 +585,7 @@ class SmQuestionBankController extends Controller
 
 
 
-                    if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    if (($request->file('question_image') != "") && (in_array($file->getMimeType(), $imagemimes))) {
                         $image_info = getimagesize($request->file('question_image'));
                         if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
@@ -602,7 +619,7 @@ class SmQuestionBankController extends Controller
 
                                 $file = $request->file('images');
                                 $fileName = "";
-                                if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
+                                if (($file[$key] != "") && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                     $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
                                     $file[$key]->move('public/uploads/upload_contents/', $fileName);
                                     $fileName = 'public/uploads/upload_contents/' . $fileName;
@@ -719,6 +736,11 @@ class SmQuestionBankController extends Controller
                             $table->string('question_image')->nullable();
                         });
                     }
+                    if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
+                        Schema::table('sm_question_banks', function ($table) {
+                            $table->mediumText('question_video')->nullable();
+                        });
+                    }
 
                     try {
 
@@ -745,7 +767,7 @@ class SmQuestionBankController extends Controller
 
                         $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
                         $file = $request->file('question_image');
-                        $fileSize =  filesize($file);
+                        $fileSize = filesize($file);
                         $fileSizeKb = ($fileSize / 1000000);
                         if ($fileSizeKb >= $maxFileSize) {
                             Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
@@ -755,7 +777,7 @@ class SmQuestionBankController extends Controller
 
 
 
-                        if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                        if (($request->file('question_image') != "") && (in_array($file->getMimeType(), $imagemimes))) {
                             $image_info = getimagesize($request->file('question_image'));
                             if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                                 $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
@@ -767,8 +789,16 @@ class SmQuestionBankController extends Controller
                                     ->withInput($request->input());
                             }
                         }
-
                         $online_question->question_image = $fileName;
+
+                        if (($request->file('question_video') != "") && (in_array($file->getMimeType(), $imagemimes))) {
+                            $videoFileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                            $file->move('public/uploads/upload_contents/', $videoFileName);
+                            $videoFileName = 'public/uploads/upload_contents/' . $videoFileName;
+                        }
+
+
+                        $online_question->question_video = $videoFileName ?? null;
 
                         $online_question->number_of_option = $request->number_of_option;
                         $online_question->school_id = Auth::user()->school_id;
@@ -789,7 +819,7 @@ class SmQuestionBankController extends Controller
 
                                     $file = $request->file('images');
                                     $fileName = "";
-                                    if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
+                                    if (($file[$key] != "") && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                         $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
                                         $file[$key]->move('public/uploads/upload_contents/', $fileName);
                                         $fileName = 'public/uploads/upload_contents/' . $fileName;
@@ -873,7 +903,7 @@ class SmQuestionBankController extends Controller
     {
         $tables = \App\tableList::getTableList('question_bank_id', $id);
 
-        
+
         $online_question = SmQuestionBank::find($id);
         if ($online_question->type != "M") {
             $tables = \App\tableList::getTableList('question_bank_id', $id);

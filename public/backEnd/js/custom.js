@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
     function ajax_error(data) {
         "use strict";
         if (data.status === 404) {
@@ -15,7 +15,7 @@
         let errors = jsonValue.errors;
         if (errors) {
             let i = 0;
-            $.each(errors, function(key, value) {
+            $.each(errors, function (key, value) {
                 let first_item = Object.keys(errors)[i];
                 let error_el_id = $('#' + first_item);
                 if (error_el_id.length > 0) {
@@ -37,18 +37,18 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
             },
-            beforeSend: function(){
+            beforeSend: function () {
                 // $(".prelaoder_wrapper")
                 //     .fadeOut("slow", function () {
                 //         $(this).show();
                 //     });
             },
-            complete: function(){
+            complete: function () {
                 // $(".prelaoder_wrapper")
                 //     .fadeOut("slow", function () {
                 //         $(this).hide();
@@ -58,8 +58,8 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 
-    $(document).ready(function() {
-        $(".isDisabled").on("click", function(e) {
+    $(document).ready(function () {
+        $(".isDisabled").on("click", function (e) {
             e.preventDefault();
         });
 
@@ -82,7 +82,7 @@
 
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var default_postion = $('#default_position').val();
         document.getElementsByTagName("html")[0].style.visibility = "visible";
         if (default_postion != 0) {
@@ -91,7 +91,7 @@
 
 
 
-            $.each(elements, function(index, item) {
+            $.each(elements, function (index, item) {
                 let id_name = $(this).attr('id');
                 $("#" + id_name + " > li").sort((a, b) => $(a).data("position") - $(b).data("position")).appendTo("#" + id_name);
 
@@ -108,7 +108,7 @@
 
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($("input#total-attendance").length > 0) {
             var total_attendance = $("input#total-attendance").val();
 
@@ -123,12 +123,12 @@
     });
 
     // student section info for student admission
-    $(document).ready(function() {
-        $("#all_classes").on("change", function() {
+    $(document).ready(function () {
+        $("#all_classes").on("change", function () {
             $(".class-checkbox").prop("checked", this.checked);
         });
 
-        $(".class-checkbox").on("change", function() {
+        $(".class-checkbox").on("change", function () {
             if ($(".class-checkbox:checked").length == $(".class-checkbox").length) {
                 $("#all_classes").prop("checked", true);
             } else {
@@ -137,12 +137,12 @@
         });
     });
 
-    $(document).ready(function() {
-        $("#all_sections").on("change", function() {
+    $(document).ready(function () {
+        $("#all_sections").on("change", function () {
             $(".section-checkbox").prop("checked", this.checked);
         });
 
-        $(".section-checkbox").on("change", function() {
+        $(".section-checkbox").on("change", function () {
             if (
                 $(".section-checkbox:checked").length == $(".section-checkbox").length
             ) {
@@ -153,12 +153,12 @@
         });
     });
 
-    $(document).ready(function() {
-        $("#all_subjects").on("change", function() {
+    $(document).ready(function () {
+        $("#all_subjects").on("change", function () {
             $(".subject-checkbox").prop("checked", this.checked);
         });
 
-        $(".subject-checkbox").on("change", function() {
+        $(".subject-checkbox").on("change", function () {
             if (
                 $(".subject-checkbox:checked").length == $(".subject-checkbox").length
             ) {
@@ -169,12 +169,12 @@
         });
     });
 
-    $(document).ready(function() {
-        $("#all_exams").on("change", function() {
+    $(document).ready(function () {
+        $("#all_exams").on("change", function () {
             $(".exam-checkbox").prop("checked", this.checked);
         });
 
-        $(".exam-checkbox").on("change", function() {
+        $(".exam-checkbox").on("change", function () {
             if ($(".exam-checkbox:checked").length == $(".exam-checkbox").length) {
                 $("#all_exams").prop("checked", true);
             } else {
@@ -184,24 +184,24 @@
     });
 
     // student section info for student admission
-    $(document).ready(function() {
-        $("#classSelectStudent").on("change", function() {
+    $(document).ready(function () {
+        $("#classSelectStudent").on("change", function () {
             var url = $("#url").val();
             var i = 0;
 
-          var class_id = $(this).val();
+            var class_id = $(this).val();
 
-          $("#sectionSelectStudent").empty().append(
-            $("<option>", {
-                value:  '',
-                text: window.jsLang('select_section') + ' *',
-            })
-        );
+            $("#sectionSelectStudent").empty().append(
+                $("<option>", {
+                    value: '',
+                    text: window.jsLang('select_section') + ' *',
+                })
+            );
 
-        if (!class_id){
-            $("#sectionSelectStudent").trigger('change').niceSelect('update');
-            return;
-        }
+            if (!class_id) {
+                $("#sectionSelectStudent").trigger('change').niceSelect('update');
+                return;
+            }
             var formData = {
                 id: $(this).val(),
             };
@@ -212,35 +212,35 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSectionStudent",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_section_loader').addClass('pre_loader');
                     $('#select_section_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
 
 
-                    $.each(data, function(i, item) {
-                       
+                    $.each(data, function (i, item) {
+
                         if (item.length) {
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#sectionSelectStudent").append(
                                     $("<option>", {
                                         value: section.id,
                                         text: section.section_name,
                                     })
                                 );
-                                
+
                             });
-                        } 
+                        }
                     });
 
                     $("#sectionSelectStudent").trigger('change').niceSelect('update');
 
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_section_loader').removeClass('pre_loader');
@@ -254,8 +254,8 @@
 
     // subject from class
 
-    $(document).ready(function() {
-        $("#classSelectStudentHomeWork").on("change", function() {
+    $(document).ready(function () {
+        $("#classSelectStudentHomeWork").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var globalType = $("#globalType").val();
@@ -273,19 +273,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSubjectFromClass",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_subject_loader').addClass('pre_loader');
                     $('#select_subject_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
 
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#subjectSelect").find("option").not(":first").remove();
                             $("#subjectSelecttHomeworkDiv ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, subject) {
+                            $.each(item, function (i, subject) {
                                 $("#subjectSelect").append(
                                     $("<option>", {
                                         value: subject.id,
@@ -308,10 +308,10 @@
                     });
                     console.log(a);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_subject_loader').removeClass('pre_loader');
@@ -323,8 +323,8 @@
     });
 
     // student section info for student admission
-    $(document).ready(function() {
-        $("#classSelectStudent1").on("change", function() {
+    $(document).ready(function () {
+        $("#classSelectStudent1").on("change", function () {
             var url = $("#url").val();
             console.log(url);
 
@@ -337,11 +337,11 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxSectionStudent",
-                success: function(data) {
+                success: function (data) {
                     // console.log('ttttt');
                     var a = "";
                     // $.loading.onAjax({img:'loading.gif'});
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#sectionSelectStudent1").find("option").not(":first").remove();
                             $("#sectionStudentDiv1 ul").find("li").not(":first").remove();
@@ -361,7 +361,7 @@
                                 "</li>"
                             );
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#sectionSelectStudent1").append(
                                     $("<option>", {
                                         value: section.id,
@@ -385,7 +385,7 @@
                     });
                     console.log(a);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -394,8 +394,8 @@
 
 
     // currency info
-    $(document).ready(function() {
-        $("#currency").on("change", function() {
+    $(document).ready(function () {
+        $("#currency").on("change", function () {
             var url = $("#url").val();
 
             var formData = {
@@ -409,11 +409,11 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxSelectCurrency",
-                success: function(data) {
+                success: function (data) {
                     var symbol = data[0].symbol;
                     $("#currency_symbol").val(symbol);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -421,8 +421,8 @@
     });
 
     // student admission get vehicle driver info
-    $(document).ready(function() {
-        $("#selectVehicle").on("change", function() {
+    $(document).ready(function () {
+        $("#selectVehicle").on("change", function () {
             var url = $("#url").val();
 
             if ($(this).val() == "") {
@@ -440,13 +440,13 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxVehicleInfo",
-                success: function(data) {
+                success: function (data) {
                     var driver_name = data[0].driver_name;
                     var driver_phone = data[0].driver_contact;
                     $("#driver_name").val(driver_name);
                     $("#driver_phone").val(driver_phone);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -454,8 +454,8 @@
     });
 
     // student section info for Room Details
-    $(document).ready(function() {
-        $("#SelectDormitory").on("change", function() {
+    $(document).ready(function () {
+        $("#SelectDormitory").on("change", function () {
             var url = $("#url").val();
             var i = 0;
 
@@ -468,18 +468,18 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxRoomDetails",
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_dormitory_loader').addClass('pre_loader');
                     $('#select_dormitory_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#selectRoomNumber").find("option").not(":first").remove();
                             $("#roomNumberDiv ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, room) {
+                            $.each(item, function (i, room) {
                                 $("#selectRoomNumber").append(
                                     $("<option>", {
                                         value: room.id,
@@ -502,10 +502,10 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_dormitory_loader').removeClass('pre_loader');
@@ -517,8 +517,8 @@
     });
 
     // student admission onclick address pass
-    $(document).ready(function() {
-        $("#currentAddressCheck").on("click", function() {
+    $(document).ready(function () {
+        $("#currentAddressCheck").on("click", function () {
             if ($(this).is(":checked")) {
                 if ($("#guardians_address").val() != "") {
                     $("#current_address").html($("#guardians_address").val());
@@ -530,8 +530,8 @@
     });
 
     // student admission onclick address pass
-    $(document).ready(function() {
-        $("#permanentAddressCheck").on("click", function() {
+    $(document).ready(function () {
+        $("#permanentAddressCheck").on("click", function () {
             if ($(this).is(":checked")) {
                 if ($("#guardians_address").val() != "") {
                     $("#permanent_address").html($("#guardians_address").val());
@@ -543,8 +543,8 @@
     });
 
     // student section select sction for sibling
-    $(document).ready(function() {
-        $("#select_sibling_class").on("change", function() {
+    $(document).ready(function () {
+        $("#select_sibling_class").on("change", function () {
             var url = $("#url").val();
 
             var formData = {
@@ -556,9 +556,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxSectionSibling",
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_sibling_section")
                                 .find("option")
@@ -566,7 +566,7 @@
                                 .remove();
                             $("#sibling_section_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_sibling_section").append(
                                     $("<option>", {
                                         value: section.id,
@@ -593,7 +593,7 @@
                     });
                     console.log(a);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -601,8 +601,8 @@
     });
 
     // student section sibling info get
-    $(document).ready(function() {
-        $("#select_sibling_section").on("change", function() {
+    $(document).ready(function () {
+        $("#select_sibling_section").on("change", function () {
             var url = $("#url").val();
             var id = $("#id").val();
 
@@ -623,13 +623,13 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxSiblingInfo",
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     if (data.length) {
                         $("#select_sibling_name").find("option").not(":first").remove();
                         $("#sibling_name_div ul").find("li").not(":first").remove();
 
-                        $.each(data, function(i, sibling) {
+                        $.each(data, function (i, sibling) {
                             $("#select_sibling_name").append(
                                 $("<option>", {
                                     value: sibling.id,
@@ -653,7 +653,7 @@
                         $("#sibling_name_div ul").find("li").not(":first").remove();
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
@@ -661,12 +661,12 @@
     });
 
     // student section sibling info get detail
-    $(document).ready(function() {
-        $("#save_button_parent").on("click", function() {
+    $(document).ready(function () {
+        $("#save_button_parent").on("click", function () {
             var select_sibling_name = $("#select_sibling_name").val();
             var staff_id = $("#select_staff_parent").val();
-            
-            if (select_sibling_name == "" && staff_id =="") {
+
+            if (select_sibling_name == "" && staff_id == "") {
                 $(".sibling_required_error div").remove();
                 $(".sibling_required_error").append(
                     "<div class='alert alert-danger'>No sibling Selected</div>"
@@ -688,9 +688,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxSiblingInfoDetail",
-                success: function(data) {
-                    
-                    if(data[3] =='sibling') {
+                success: function (data) {
+
+                    if (data[3] == 'sibling') {
                         var fathers_name = data[1].fathers_name;
                         var parent_id = data[0].parent_id;
 
@@ -705,8 +705,8 @@
                             "</strong></div>"
                         );
                         $("#parent_info input").val(parent_id);
-                        $(".guardian_section").hide(); 
-                    } else if(data[3] == 'staff') {
+                        $(".guardian_section").hide();
+                    } else if (data[3] == 'staff') {
                         $("#parent_info div").remove();
                         $("#parent_info").append(
                             "<div class='alert primary-btn small parent_remove' id='parent_remove'>×<strong> Guardian: " +
@@ -716,17 +716,17 @@
                             "]</strong></div>"
                         );
                         $("#staff_parent").val(data[2].id);
-                        $(".guardian_section").hide(); 
+                        $(".guardian_section").hide();
 
-                        
-                       
+
+
                     }
 
                     // if($("#sibling_id").val() != 0){
                     //     $("#sibling_id").val(2);
                     // }
                 },
-                error: function (data){
+                error: function (data) {
                     if (data.status === 404) {
                         toastr.error("What you are looking is not found", 'Opps!');
                         return;
@@ -741,7 +741,7 @@
                     let errors = jsonValue.errors;
                     if (errors) {
                         let i = 0;
-                        $.each(errors, function(key, value) {
+                        $.each(errors, function (key, value) {
                             let first_item = Object.keys(errors)[i];
                             let error_el_id = $('#' + first_item);
                             if (error_el_id.length > 0) {
@@ -763,25 +763,25 @@
 
     // student admission onclick sibling remove
 
-    $(document).on("click", "#parent_remove", function(e) {
+    $(document).on("click", "#parent_remove", function (e) {
         $("#parent_info div").remove();
         $("#parent_info input").val("");
         $("#staff_parent").val("");
         $("#parent_details").show();
-        $(".guardian_section").show(); 
+        $(".guardian_section").show();
     });
 
     // student admission onclick address pass
-    $(document).ready(function() {
-        $(".relationButton").on("click", function() {
+    $(document).ready(function () {
+        $(".relationButton").on("click", function () {
             if ($(this).val() == "F") {
-                if($("#fathers_name").length){
+                if ($("#fathers_name").length) {
                     $("#guardians_name").val($("#fathers_name").val());
                 }
-                if($("#fathers_occupation").length){
+                if ($("#fathers_occupation").length) {
                     $("#guardians_occupation").val($("#fathers_occupation").val());
                 }
-                if($("#fathers_phone").length){
+                if ($("#fathers_phone").length) {
                     $("#guardians_phone").val($("#fathers_phone").val());
                 }
 
@@ -793,13 +793,13 @@
                     $("#placeholderGuardiansName").attr("placeholder", sd);
                 }
             } else if ($(this).val() == "M") {
-                if($("#mothers_name").length){
+                if ($("#mothers_name").length) {
                     $("#guardians_name").val($("#mothers_name").val());
                 }
-                if($("#mothers_occupation").length){
+                if ($("#mothers_occupation").length) {
                     $("#guardians_occupation").val($("#mothers_occupation").val());
                 }
-                if($("#mothers_phone").length){
+                if ($("#mothers_phone").length) {
                     $("#guardians_phone").val($("#mothers_phone").val());
                 }
 
@@ -838,7 +838,7 @@
 
     // image or file browse
 
-    var fileInput = document.getElementById( "upload_content_file" );
+    var fileInput = document.getElementById("upload_content_file");
     if (fileInput) {
         fileInput.addEventListener("change", showFileName);
 
@@ -975,8 +975,8 @@
 
     // Student Delete modal
 
-    $(function() {
-        $(".deleteStudentModal").on("click", function() {
+    $(function () {
+        $(".deleteStudentModal").on("click", function () {
             var my_id_value = $(this).data("id");
             console.log(my_id_value);
             $(".modal-body #student_delete_id").val(my_id_value);
@@ -984,8 +984,8 @@
     });
     // fees group Delete modal
 
-    $(function() {
-        $(".deleteFeesGroupModal").on("click", function() {
+    $(function () {
+        $(".deleteFeesGroupModal").on("click", function () {
             var my_id_value = $(this).data("id");
             console.log(my_id_value);
             $(".modal-body #fees_group_id").val(my_id_value);
@@ -994,8 +994,8 @@
 
     // fees master single Delete modal
 
-    $(function() {
-        $(".deleteFeesMasterSingle").on("click", function() {
+    $(function () {
+        $(".deleteFeesMasterSingle").on("click", function () {
             var my_id_value = $(this).data("id");
             // console.log(my_id_value);
             $(".modal-body #fees_master_single_id").val(my_id_value);
@@ -1004,8 +1004,8 @@
 
     // fees master single Delete modal
 
-    $(function() {
-        $(".deleteFeesMasterGroup").on("click", function() {
+    $(function () {
+        $(".deleteFeesMasterGroup").on("click", function () {
             var my_id_value = $(this).data("id");
             // console.log(my_id_value);
             $(".modal-body #fees_master_group_id").val(my_id_value);
@@ -1014,8 +1014,8 @@
 
     // online exam delete modal
 
-    $(function() {
-        $(".deleteOnlineExam").on("click", function() {
+    $(function () {
+        $(".deleteOnlineExam").on("click", function () {
             var my_id_value = $(this).data("id");
             // console.log(my_id_value);
             $(".modal-body #online_exam_id").val(my_id_value);
@@ -1024,8 +1024,8 @@
 
     // online exam Question Delete modal
 
-    $(function() {
-        $(".deleteOnlineExamQuestion").on("click", function() {
+    $(function () {
+        $(".deleteOnlineExamQuestion").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #online_exam_question_id").val(my_id_value);
         });
@@ -1033,8 +1033,8 @@
 
     // Assign Vehicle
 
-    $(function() {
-        $(".deleteAssignVehicle").on("click", function() {
+    $(function () {
+        $(".deleteAssignVehicle").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #assign_vehicle_id").val(my_id_value);
         });
@@ -1042,16 +1042,16 @@
 
     // Role delete modal
 
-    $(function() {
-        $(".deleteRole").on("click", function() {
+    $(function () {
+        $(".deleteRole").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #role_id").val(my_id_value);
         });
     });
     // delete fees modal
 
-    $(function() {
-        $(".deleteFeesPayment").on("click", function() {
+    $(function () {
+        $(".deleteFeesPayment").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #feep_payment_id").val(my_id_value);
         });
@@ -1059,8 +1059,8 @@
 
     // delete base setup
 
-    $(function() {
-        $(".deleteBaseSetupModal").on("click", function() {
+    $(function () {
+        $(".deleteBaseSetupModal").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #base_setup_id").val(my_id_value);
         });
@@ -1068,8 +1068,8 @@
 
     // delete add income
 
-    $(function() {
-        $(".deleteAddIncomeModal").on("click", function() {
+    $(function () {
+        $(".deleteAddIncomeModal").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #ncome_id").val(my_id_value);
         });
@@ -1077,8 +1077,8 @@
 
     // delete Admin Setup
 
-    $(function() {
-        $(".deleteSetupAdminModal").on("click", function() {
+    $(function () {
+        $(".deleteSetupAdminModal").on("click", function () {
             var my_id_value = $(this).data("id");
             var url = $("#url").val();
 
@@ -1091,8 +1091,8 @@
 
     // admission query delete modal
 
-    $(function() {
-        $(".deleteAdmissionQueryModal").on("click", function() {
+    $(function () {
+        $(".deleteAdmissionQueryModal").on("click", function () {
             var my_id_value = $(this).data("id");
             $(".modal-body #query_id").val(my_id_value);
         });
@@ -1100,7 +1100,7 @@
 
     // remove sibling when student update
 
-    $(document).on("click", "#yesRemoveSibling", function(event) {
+    $(document).on("click", "#yesRemoveSibling", function (event) {
         $("#siblingTitle").remove();
         $("#siblingHr").remove();
         $("#siblingInfo").remove();
@@ -1110,8 +1110,8 @@
     // Select section student promote
 
     // student section sibling info get
-    $(document).ready(function() {
-        $(".promote_session").on("change", function() {
+    $(document).ready(function () {
+        $(".promote_session").on("change", function () {
             var url = $("#url").val();
 
             var formData = {
@@ -1123,15 +1123,15 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "promote-year",
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_class").find("option").not(":first").remove();
                             $("#select_class_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, session_class) {
+                            $.each(item, function (i, session_class) {
                                 $("#select_class").append(
                                     $("<option>", {
                                         value: session_class.id,
@@ -1154,7 +1154,7 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -1219,44 +1219,44 @@
 
 
     // student promote sesction ->remove comment ->abunayem
-    $(document).ready(function() {
-        $(".promote_class").on("change", function() {
+    $(document).ready(function () {
+        $(".promote_class").on("change", function () {
             var url = $("#url").val();
             var key = $(this).data('key');
-            var i=0;
+            var i = 0;
             var formData = {
                 id: $(this).val(),
             };
 
-            $("#promote_section"+key).find("option").not(":first").remove();
-            $("#promote_section_div"+key+" ul").find("li").not(":first").remove();
+            $("#promote_section" + key).find("option").not(":first").remove();
+            $("#promote_section_div" + key + " ul").find("li").not(":first").remove();
             // get section for student
             $.ajax({
                 type: "GET",
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                beforeSend: function() {
-                    $('#select_section_promote'+key).addClass('pre_loader');
-                    $('#select_section_promote'+key).removeClass('loader');
+                beforeSend: function () {
+                    $('#select_section_promote' + key).addClass('pre_loader');
+                    $('#select_section_promote' + key).removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
-                            $("#promote_section"+key).find("option").not(":first").remove();
-                            $("#promote_section_div"+key+" ul").find("li").not(":first").remove();
+                            $("#promote_section" + key).find("option").not(":first").remove();
+                            $("#promote_section_div" + key + " ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
-                                $("#promote_section"+key).append(
+                            $.each(item, function (i, section) {
+                                $("#promote_section" + key).append(
                                     $("<option>", {
                                         value: section.id,
                                         text: section.section_name,
                                     })
                                 );
 
-                                $("#promote_section_div"+key+" ul").append(
+                                $("#promote_section_div" + key + " ul").append(
                                     "<li data-value='" +
                                     section.id +
                                     "' class='option'>" +
@@ -1269,8 +1269,8 @@
                             $("#promote_section_div .current").html(
                                 "SELECT PROMOTE SECTION *"
                             );
-                            $("#promote_section"+key).find("option").not(":first").remove();
-                            $("#promote_section_div"+key+" ul").find("li").not(":first").remove();
+                            $("#promote_section" + key).find("option").not(":first").remove();
+                            $("#promote_section_div" + key + " ul").find("li").not(":first").remove();
                         }
                     });
                 },
@@ -1278,14 +1278,14 @@
                 //     $('.select_section_promote').removeClass('pre_loader');
                 //     $('.select_section_promote').addClass('loader');
                 // },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
-                        $('#select_section_promote'+key).removeClass('pre_loader');
-                        $('#select_section_promote'+key).addClass('loader');
+                        $('#select_section_promote' + key).removeClass('pre_loader');
+                        $('#select_section_promote' + key).addClass('loader');
                     }
                 }
             });
@@ -1293,8 +1293,8 @@
     });
 
 
-// Promote Student
-    $("#search_promote").on("submit", function() {
+    // Promote Student
+    $("#search_promote").on("submit", function () {
         if ($("#current_session").val() == "") {
             $("#current_session_error").removeClass("d-none");
         } else {
@@ -1313,7 +1313,7 @@
         }
     });
 
-    $("#student_promote_submit").on("submit", function() {
+    $("#student_promote_submit").on("submit", function () {
         var i = 0;
         if ($("#promote_session").val() == "") {
             $("#promote_session_error").removeClass("d-none");
@@ -1334,20 +1334,20 @@
     });
 
     // Date picker
-    $("#admission-date-icon").on("click", function() {
+    $("#admission-date-icon").on("click", function () {
         $("#admissionDate").focus();
     });
 
     // student Attendance
-    $(document).ready(function() {
-        $("#select_class").on("change", function() {
+    $(document).ready(function () {
+        $("#select_class").on("change", function () {
 
             var url = $("#url").val();
             var parent = $("#parent").val();
             var i = 0;
             var formData = {
                 id: $(this).val(),
-                parent : parent
+                parent: parent
             };
 
             // console.log("formData");
@@ -1359,19 +1359,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_section_loader').addClass('pre_loader');
                     $('#select_section_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
                     // console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_section").find("option").not(":first").remove();
                             $("#select_section_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_section").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1394,10 +1394,10 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_section_loader').removeClass('pre_loader');
@@ -1410,8 +1410,8 @@
 
     // subject from class
 
-    $(document).ready(function() {
-        $("#class_subject").on("change", function() {
+    $(document).ready(function () {
+        $("#class_subject").on("change", function () {
             var url = $("#url").val();
             var i = 0;
 
@@ -1427,19 +1427,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSubjectFromClass",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_subject_loader').addClass('pre_loader');
                     $('#select_subject_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
 
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_class_subject").find("option").not(":first").remove();
                             $("#select_class_subject_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, subject) {
+                            $.each(item, function (i, subject) {
                                 $("#select_class_subject").append(
                                     $("<option>", {
                                         value: subject.id,
@@ -1462,10 +1462,10 @@
                     });
                     console.log(a);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_subject_loader').removeClass('pre_loader');
@@ -1477,8 +1477,8 @@
     });
 
     //section from subject
-    $(document).ready(function() {
-        $("#select_class_subject").on("change", function() {
+    $(document).ready(function () {
+        $("#select_class_subject").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var formData = {
@@ -1491,19 +1491,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSubjectSection",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_section_loader').addClass('pre_loader');
                     $('#select_section_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
 
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#m_select_subject_section").find("option").not(":first").remove();
                             $("#m_select_subject_section_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#m_select_subject_section").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1526,10 +1526,10 @@
                     });
                     console.log(a);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_section_loader').removeClass('pre_loader');
@@ -1572,8 +1572,8 @@
     // student Promote
 
     // promote student Attendance
-    $(document).ready(function() {
-        $("#c_select_class").change(function() {
+    $(document).ready(function () {
+        $("#c_select_class").change(function () {
             var ca = $("select[name='promote_class']").val();
             var url = $("#url").val();
             // console.log($(this).val());
@@ -1587,15 +1587,15 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#c_select_section").find("option").not(":first").remove();
                             $("#c_select_section_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#c_select_section").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1618,7 +1618,7 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
@@ -1627,8 +1627,8 @@
     // student Promote
 
     //get student from class section
-    $(document).ready(function() {
-        $("#select_section").on("change", function() {
+    $(document).ready(function () {
+        $("#select_section").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var select_class = $("#select_class").val();
@@ -1644,18 +1644,18 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSelectStudent",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_student_loader').addClass('pre_loader');
                     $('#select_student_loader').removeClass('loader');
                 },
 
-                success: function(data) {
-                    $.each(data, function(i, item) {
+                success: function (data) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_student").find("option").not(":first").remove();
                             $("#select_student_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, student) {
+                            $.each(item, function (i, student) {
                                 $("#select_student").append(
                                     $("<option>", {
                                         value: student.id,
@@ -1672,16 +1672,16 @@
                                 );
                             });
                         } else {
-                            $("#select_student_div .current").html(jsLang('select_student')+" *");
+                            $("#select_student_div .current").html(jsLang('select_student') + " *");
                             $("#select_student").find("option").not(":first").remove();
                             $("#select_student_div ul").find("li").not(":first").remove();
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_student_loader').removeClass('pre_loader');
@@ -1693,8 +1693,8 @@
     });
 
     // add library member section
-    $(document).ready(function() {
-        $("#class_library_member").on("change", function() {
+    $(document).ready(function () {
+        $("#class_library_member").on("change", function () {
             var url = $("#url").val();
             var member_type = $("#member_type").val();
             var formData = {
@@ -1707,9 +1707,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_section_member").find("option").not(":first").remove();
                             $("#select_section__member_div ul")
@@ -1717,7 +1717,7 @@
                                 .not(":first")
                                 .remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_section_member").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1745,15 +1745,15 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
         });
     });
 
-    $(document).ready(function() {
-        $("#select_class").on("change", function() {
+    $(document).ready(function () {
+        $("#select_class").on("change", function () {
             var url = $("#url").val();
             var parent = $("#parent").val();
 
@@ -1767,9 +1767,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_section_member").find("option").not(":first").remove();
                             $("#select_section__member_div ul")
@@ -1777,7 +1777,7 @@
                                 .not(":first")
                                 .remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_section_member").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1805,18 +1805,18 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
         });
     });
     // library student select
-    $(document).ready(function() {
-        $("#select_section_member").on("change", function() {
+    $(document).ready(function () {
+        $("#select_section_member").on("change", function () {
             var url = $("#url").val();
             var select_class = $("#select_class").val();
-            if(!select_class) {
+            if (!select_class) {
                 var select_class = $("#class_library_member").val();
             }
             var formData = {
@@ -1832,19 +1832,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSelectStudent",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_student_loader').addClass('pre_loader');
                     $('#select_student_loader').removeClass('loader');
                 },
 
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_student").find("option").not(":first").remove();
                             $("#select_student_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, student) {
+                            $.each(item, function (i, student) {
                                 $("#select_student").append(
                                     $("<option>", {
                                         value: student.user_id,
@@ -1861,16 +1861,16 @@
                                 );
                             });
                         } else {
-                            $("#select_student_div .current").html(jsLang('select_student') +" *");
+                            $("#select_student_div .current").html(jsLang('select_student') + " *");
                             $("#select_student").find("option").not(":first").remove();
                             $("#select_student_div ul").find("li").not(":first").remove();
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_student_loader').removeClass('pre_loader');
@@ -1882,8 +1882,8 @@
     });
 
     //get parent from class section
-    $(document).ready(function() {
-        $("#select_section").on("change", function() {
+    $(document).ready(function () {
+        $("#select_section").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var select_class = $("#select_class").val();
@@ -1898,18 +1898,18 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSelectStudent",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_parent_loader').addClass('pre_loader');
                     $('#select_parent_loader').removeClass('loader');
                 },
 
-                success: function(data) {
-                    $.each(data, function(i, item) {
+                success: function (data) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_parent").find("option").not(":first").remove();
                             $("#select_parent_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, student) {
+                            $.each(item, function (i, student) {
                                 $("#select_parent").append(
                                     $("<option>", {
                                         value: student.parent_user_id,
@@ -1926,16 +1926,16 @@
                                 );
                             });
                         } else {
-                            $("#select_parent_div .current").html(jsLang('select_parent')+" *");
+                            $("#select_parent_div .current").html(jsLang('select_parent') + " *");
                             $("#select_parent").find("option").not(":first").remove();
                             $("#select_parent_div ul").find("li").not(":first").remove();
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_parent_loader').removeClass('pre_loader');
@@ -1947,8 +1947,8 @@
     });
 
     // add library member section
-    $(document).ready(function() {
-        $("#class_library_parent_member").on("change", function() {
+    $(document).ready(function () {
+        $("#class_library_parent_member").on("change", function () {
             var url = $("#url").val();
 
             var formData = {
@@ -1960,9 +1960,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_section_parent_member").find("option").not(":first").remove();
                             $("#select_section_parent_member_div ul")
@@ -1970,7 +1970,7 @@
                                 .not(":first")
                                 .remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_section_parent_member").append(
                                     $("<option>", {
                                         value: section.id,
@@ -1998,15 +1998,15 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
         });
     });
 
-    $(document).ready(function() {
-        $("#select_class").on("change", function() {
+    $(document).ready(function () {
+        $("#select_class").on("change", function () {
             var url = $("#url").val();
             var parent = $("#parent").val();
 
@@ -2020,9 +2020,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxStudentPromoteSection",
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_section_parent_member").find("option").not(":first").remove();
                             $("#select_section_parent_member_div ul")
@@ -2030,7 +2030,7 @@
                                 .not(":first")
                                 .remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_section_parent_member").append(
                                     $("<option>", {
                                         value: section.id,
@@ -2058,19 +2058,19 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
         });
     });
     // library student select
-    $(document).ready(function() {
-        $("#select_section_parent_member").on("change", function() {
+    $(document).ready(function () {
+        $("#select_section_parent_member").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var select_class = $("#select_class").val();
-            if(!select_class) {
+            if (!select_class) {
                 var select_class = $("#class_library_parent_member").val();
             }
             var formData = {
@@ -2085,19 +2085,19 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSelectStudent",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_parent_loader').addClass('pre_loader');
                     $('#select_parent_loader').removeClass('loader');
                 },
 
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_parent").find("option").not(":first").remove();
                             $("#select_parent_div ul").find("li").not(":first").remove();
-                            $.each(item, function(i, student) {
-                                if(student.parent_name != null){
+                            $.each(item, function (i, student) {
+                                if (student.parent_name != null) {
                                     $("#select_parent").append(
                                         $("<option>", {
                                             value: student.parent_user_id,
@@ -2114,16 +2114,16 @@
                                 }
                             });
                         } else {
-                            $("#select_parent_div .current").html(jsLang('select_parent') +" *");
+                            $("#select_parent_div .current").html(jsLang('select_parent') + " *");
                             $("#select_parent").find("option").not(":first").remove();
                             $("#select_parent_div ul").find("li").not(":first").remove();
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_parent_loader').removeClass('pre_loader');
@@ -2136,7 +2136,7 @@
 
     // Student attendance
 
-    $("#search_student").on("submit", function() {
+    $("#search_student").on("submit", function () {
         var date = $("#startDate")
             .datepicker({
                 dateFormat: "dd,MM,yyyy",
@@ -2175,11 +2175,11 @@
     }
 
     // Fees Assign
-    $("#checkAll").on("click", function() {
+    $("#checkAll").on("click", function () {
         $("input:checkbox").prop("checked", this.checked);
     });
 
-    $("input:checkbox").on("click", function() {
+    $("input:checkbox").on("click", function () {
         if (!$(this).is(":checked")) {
             $("#checkAll").prop("checked", false);
         }
@@ -2426,7 +2426,7 @@
 
     // student section info for student admission
 
-    $(document).on("change", "#discount_group", function(event) {
+    $(document).on("change", "#discount_group", function (event) {
         var url = $("#url").val();
         var real_amount = $("#real_amount").val();
         var amount = $("#real_amount").val();
@@ -2454,7 +2454,7 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "fees-discount-amount-search",
-            success: function(data) {
+            success: function (data) {
                 console.log(parseInt(data));
 
                 if (parseInt(data) > get_fees_amount) {
@@ -2471,7 +2471,7 @@
                 $("#amount").val(pay_amount);
                 $("#discount_amount").val(data).prop("readonly", true);
             },
-            error: function(data) {
+            error: function (data) {
                 // console.log("Error:", data);
             },
         });
@@ -2525,7 +2525,7 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "get-class-teacher-ajax",
-            success: function(data) {
+            success: function (data) {
                 if (data[0] != "") {
                     $("#teacher_name").val(data[0]["full_name"]);
                     $("#teacher_id").val(data[0]["id"]);
@@ -2542,7 +2542,7 @@
                     $("#teacher_id").val("");
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 // console.log("Error:", data);
             },
         });
@@ -2604,8 +2604,8 @@
     };
 
     // Assign subject
-    $(document).ready(function() {
-        $("#addNewSubject").on("click", function() {
+    $(document).ready(function () {
+        $("#addNewSubject").on("click", function () {
             var url = $("#url").val();
             var count = $("#assign-subject").children().length;
             var divCount = count + 1;
@@ -2615,7 +2615,7 @@
                 type: "GET",
                 dataType: "json",
                 url: url + "/" + "assign-subject-get-by-ajax",
-                success: function(data) {
+                success: function (data) {
                     var subject_teacher = "";
                     subject_teacher +=
                         "<div class='col-lg-12 mb-30' id='assign-subject-" +
@@ -2626,8 +2626,8 @@
                     subject_teacher +=
                         "<select class='primary_select' name='subjects[]' style='display:none'>";
                     subject_teacher +=
-                        "<option data-display='"+window.jsLang('select_subject')+"'  value=''>"+window.jsLang('select_subject')+"</option>";
-                    $.each(data[0], function(key, subject) {
+                        "<option data-display='" + window.jsLang('select_subject') + "'  value=''>" + window.jsLang('select_subject') + "</option>";
+                    $.each(data[0], function (key, subject) {
                         subject_teacher +=
                             "<option value=" +
                             subject.id +
@@ -2639,13 +2639,13 @@
 
                     subject_teacher +=
                         "<div class='nice-select primary_select form-control' tabindex='0'>";
-                    subject_teacher += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
+                    subject_teacher += "<span class='current'>" + window.jsLang('select_subject') + "</span>";
                     subject_teacher +=
                         "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
                     subject_teacher += "<ul class='list'>";
                     subject_teacher +=
-                        "<li data-value='' data-display='"+window.jsLang('select_subject')+"' class='option selected'>"+window.jsLang('select_subject')+"</li>";
-                    $.each(data[0], function(key, subject) {
+                        "<li data-value='' data-display='" + window.jsLang('select_subject') + "' class='option selected'>" + window.jsLang('select_subject') + "</li>";
+                    $.each(data[0], function (key, subject) {
                         subject_teacher +=
                             "<li data-value=" +
                             subject.id +
@@ -2660,8 +2660,8 @@
                     subject_teacher +=
                         "<select class='primary_select form-control' name='teachers[]' style='display:none'>";
                     subject_teacher +=
-                        "<option data-display='"+window.jsLang('select_teacher')+"' value=''>"+window.jsLang('select_teacher')+"</option>";
-                    $.each(data[1], function(key, teacher) {
+                        "<option data-display='" + window.jsLang('select_teacher') + "' value=''>" + window.jsLang('select_teacher') + "</option>";
+                    $.each(data[1], function (key, teacher) {
                         subject_teacher +=
                             "<option value=" +
                             teacher.id +
@@ -2672,13 +2672,13 @@
                     subject_teacher += "</select>";
                     subject_teacher +=
                         "<div class='nice-select primary_select form-control' tabindex='0'>";
-                    subject_teacher += "<span class='current'>"+window.jsLang('select_teacher')+"</span>";
+                    subject_teacher += "<span class='current'>" + window.jsLang('select_teacher') + "</span>";
                     subject_teacher +=
                         "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
                     subject_teacher += "<ul class='list'>";
                     subject_teacher +=
-                        "<li data-value='' data-display='"+window.jsLang('select_teacher')+"' class='option selected'>"+window.jsLang('select_teacher')+"</li>";
-                    $.each(data[1], function(key, teacher) {
+                        "<li data-value='' data-display='" + window.jsLang('select_teacher') + "' class='option selected'>" + window.jsLang('select_teacher') + "</li>";
+                    $.each(data[1], function (key, teacher) {
                         subject_teacher +=
                             "<li data-value=" +
                             teacher.id +
@@ -2701,7 +2701,7 @@
                     subject_teacher += "</div>";
                     $("#assign-subject").append(subject_teacher);
                 },
-                error: function(data) {
+                error: function (data) {
                     // console.log("Error:", data);
                 },
             });
@@ -2741,7 +2741,7 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "check-exam-routine-date",
-            success: function(data) {
+            success: function (data) {
                 if (data[0].length == 0) {
                     $("#date_error").html("");
                     $("#date_error_count").val();
@@ -2766,7 +2766,7 @@
                     $("#holiday_message").html("");
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 // console.log("Error:", data);
             },
         });
@@ -2825,7 +2825,7 @@
             dataType: "json",
             url: url + "/" + "check-exam-routine-period",
             async: false,
-            success: function(data) {
+            success: function (data) {
                 console.log(data.exam_period_check);
                 if (data.exam_period_check != null) {
                     alert("Already assigned, please change date or period");
@@ -2834,7 +2834,7 @@
                     trueorfalse = true;
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("Error:", data);
             },
         });
@@ -2922,15 +2922,15 @@
         });
     });*/
 
-    $(document).ready(function() {
-        $("#select_section").on("change", function() {
+    $(document).ready(function () {
+        $("#select_section").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             var select_class = $("#select_class").val();
-            if(!$(this).val()) {
-                return ;
+            if (!$(this).val()) {
+                return;
             }
-            
+
             if (!select_class) {
                 var select_class = $("#lms_select_class").val()
             }
@@ -2940,7 +2940,7 @@
             };
             $("#select_subject").empty().append(
                 $("<option>", {
-                    value:  '',
+                    value: '',
                     text: window.jsLang('select_subject') + ' *',
                 })
             );
@@ -2952,25 +2952,25 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSelectSubject",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_subject_loader').addClass('pre_loader');
                     $('#select_subject_loader').removeClass('loader');
                 },
 
-                success: function(data) {
+                success: function (data) {
 
 
 
                     $('#classSelectStudent').niceSelect('update');
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
 
-                            $.each(item, function(i, subject) {
+                            $.each(item, function (i, subject) {
                                 var type = subject.subject_type == "T" ? "Theory" : "Practical";
                                 $("#select_subject").append(
                                     $("<option>", {
                                         value: subject.id,
-                                        text: subject.subject_name +" (" + type + ")",
+                                        text: subject.subject_name + " (" + type + ")",
                                     })
                                 );
                             });
@@ -2978,10 +2978,10 @@
                     });
 
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     $('#select_subject').niceSelect('update');
                     i--;
                     if (i <= 0) {
@@ -2992,12 +2992,12 @@
             });
         });
     });
-    
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         if ($("#exam_schedule_store").length) {
-            $("form#exam_schedule_store").on("submit", function(event) {
+            $("form#exam_schedule_store").on("submit", function (event) {
                 //Add validation rule for dynamically generated name fields
-                $(".date_input").each(function() {
+                $(".date_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3006,7 +3006,7 @@
                     });
                 });
 
-                $(".passing_input").each(function() {
+                $(".passing_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3015,7 +3015,7 @@
                     });
                 });
 
-                $(".start_time_input").each(function() {
+                $(".start_time_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3024,7 +3024,7 @@
                     });
                 });
 
-                $(".end_time_input").each(function() {
+                $(".end_time_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3033,7 +3033,7 @@
                     });
                 });
 
-                $(".full_marks_input").each(function() {
+                $(".full_marks_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3042,7 +3042,7 @@
                     });
                 });
 
-                $(".room_input").each(function() {
+                $(".room_input").each(function () {
                     $(this).rules("add", {
                         required: true,
                         messages: {
@@ -3055,7 +3055,7 @@
         }
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ($("#marks_register_store").length) {
             // $('form#marks_register_store').on('submit', function (event) {
             //     //Add validation rule for dynamically generated name fields
@@ -3074,10 +3074,10 @@
 
             // $("#marks_register_store").validate();
 
-            $("form#marks_register_store").on("submit", function(event) {
+            $("form#marks_register_store").on("submit", function (event) {
                 var i = 0;
                 var j = 0;
-                $(".marks_input").each(function() {
+                $(".marks_input").each(function () {
                     if (
                         parseInt($(this).siblings("#part_marks").val()) <
                         parseInt($(this).val())
@@ -3090,7 +3090,7 @@
                 });
 
                 if (j > 0) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         toastr.error("Mark fields are required.!", "Error Alert", {
                             timeOut: 5000,
                         });
@@ -3099,12 +3099,12 @@
                 }
 
                 if (i > 0) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         toastr.error(
                             "Obtained mark can not be higher than distributed mark.!",
                             "Error Alert", {
-                                timeOut: 5000,
-                            }
+                            timeOut: 5000,
+                        }
                         );
                     }, 500);
                     return false;
@@ -3114,8 +3114,8 @@
     });
 
     // Add New Room In Exam Section
-    $(document).ready(function() {
-        $("#addNewRoom").on("click", function() {
+    $(document).ready(function () {
+        $("#addNewRoom").on("click", function () {
             var url = $("#url").val();
 
             // $('#assign_exam_room tr:last').before("<tr><td>new row</td></tr>");
@@ -3129,7 +3129,7 @@
                 type: "GET",
                 dataType: "json",
                 url: url + "/" + "assign-exam-room-get-by-ajax",
-                success: function(data) {
+                success: function (data) {
                     console.log(data[0]);
 
                     var appendRow = "";
@@ -3147,7 +3147,7 @@
                         "'>";
                     appendRow +=
                         "<option data-display='Select *' value=''>Select *</option>";
-                    $.each(data[0], function(key, room) {
+                    $.each(data[0], function (key, room) {
                         appendRow +=
                             "<option value='" + room.id + "'>" + room.room_no + "</option>";
                     });
@@ -3210,7 +3210,7 @@
                     appendRow += "</tr>";
                     $("#assign_exam_room tr:last").before(appendRow);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -3227,10 +3227,10 @@
 
     // Add New Room In Exam Section
 
-    $(document).on("change", ".class_room", function(event) {
+    $(document).on("change", ".class_room", function (event) {
         var trNo = $(this).parents("tr").attr("id");
         var class_room_id = [];
-        $(".class_room").each(function() {
+        $(".class_room").each(function () {
             if ($(this).val() != "") {
                 class_room_id.push($(this).val());
             }
@@ -3271,7 +3271,7 @@
             dataType: "json",
             data: formData,
             url: url + "/" + "get-room-capacity",
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 $("#capacity-" + trNo).val(
                     "Assigned " + data[1] + " of " + data[0].capacity
@@ -3280,15 +3280,15 @@
                 $("#room_capacity-" + trNo).val(data[0].capacity);
                 $("#assign_student-" + trNo).val("");
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("Error:", data);
             },
         });
     });
 
-    $(document).on("submit", "#seat_plan_store", function(event) {
+    $(document).on("submit", "#seat_plan_store", function (event) {
         var room_validate = [];
-        $("table tr .class_room").each(function() {
+        $("table tr .class_room").each(function () {
             if ($(this).find("option:selected").val() == "") {
                 room_validate.push($(this).parents("tr").attr("id"));
             }
@@ -3296,7 +3296,7 @@
 
         var assign_students = [];
         var total_assign_students = 0;
-        $("table tr .assign_student").each(function() {
+        $("table tr .assign_student").each(function () {
             if ($(this).val() == "") {
                 assign_students.push($(this).parents("tr").attr("id"));
             } else {
@@ -3305,11 +3305,11 @@
             }
         });
 
-        $.each(room_validate, function(i, val) {
+        $.each(room_validate, function (i, val) {
             $("#room_error-" + val).html("Required");
         });
 
-        $.each(assign_students, function(i, val) {
+        $.each(assign_students, function (i, val) {
             $("#assign_student_error-" + val).html("Required");
         });
 
@@ -3318,7 +3318,7 @@
         }
 
         var class_room_id = [];
-        $(".class_room").each(function() {
+        $(".class_room").each(function () {
             if ($(this).val() != "") {
                 class_room_id.push($(this).val());
             }
@@ -3329,7 +3329,7 @@
         }
 
         var room_capacisity_validate = [];
-        $("table tr .assign_student").each(function() {
+        $("table tr .assign_student").each(function () {
             var trNo = $(this).parents("tr").attr("id");
             var already_assign = parseInt($("#already_assigned-" + trNo).val());
             var room_capacity = parseInt($("#room_capacity-" + trNo).val());
@@ -3343,7 +3343,7 @@
             }
         });
 
-        $.each(room_capacisity_validate, function(i, val) {
+        $.each(room_capacisity_validate, function (i, val) {
             var capacity = $("#room_capacity-" + val).val();
             $("#assign_student_error-" + val).html("Room Capacity is " + capacity);
         });
@@ -3378,18 +3378,22 @@
     };
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#question_bank div#multiple-choice").hide();
+        $("#question_bank div#question-video").hide();
         $("#question_bank div#true-false").hide();
         $("#question_bank div#multiple-image-section").hide();
         $("#question_bank div#fill-in-the-blanks").hide();
         $("#question_bank div#multiple-options").html("");
     });
 
-    $(document).on("change", "#question-type", function(event) {
+    $(document).on("change", "#question-type", function (event) {
         var question_type = $("#question-type").val();
+        console.log(question_type);
+
         if (question_type == "") {
             $("#question_bank div#multiple-choice").hide();
+            $("#question_bank div#question-video").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
@@ -3399,20 +3403,30 @@
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
-        } else if (question_type == "T") {
+        } else if (question_type == "VI") {
+            $("#question_bank div#multiple-choice").show();
+            $("#question_bank div#question-video").show();
+            $("#question_bank div#true-false").hide();
+            $("#question_bank div#multiple-image-section").hide();
+            $("#question_bank div#fill-in-the-blanks").hide();
+        }
+        else if (question_type == "T") {
             $("#question_bank div#multiple-choice").hide();
+            $("#question_bank div#question-video").hide();
             $("#question_bank div#true-false").show();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
             $("#question_bank div#multiple-options").html("");
         } else if (question_type == "MI") {
             $("#question_bank div#multiple-choice").hide();
+            $("#question_bank div#question-video").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").show();
             $("#question_bank div#fill-in-the-blanks").hide();
             $("#question_bank div#multiple-options").html("");
         } else {
             $("#question_bank div#multiple-choice").hide();
+            $("#question_bank div#question-video").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").show();
@@ -3420,7 +3434,7 @@
         }
     });
 
-    $(document).on("click", "#create-option", function(event) {
+    $(document).on("click", "#create-option", function (event) {
         $("#question_bank div.multiple-options").html("");
 
         var number_of_option = $("#number_of_option").val();
@@ -3456,7 +3470,7 @@
             $(".multiple-options").append(appendRow);
         }
     });
-    $(document).on("click", "#create-image-option", function(event) {
+    $(document).on("click", "#create-image-option", function (event) {
         console.log('clicked');
         $("#question_bank div.multiple-images").html("");
 
@@ -3487,8 +3501,8 @@
         }
     });
 
-    $(document).ready(function() {
-        $("#route").on("change", function() {
+    $(document).ready(function () {
+        $("#route").on("change", function () {
             var url = $("#url").val();
             var i = 0;
             if ($(this).val() == "") {
@@ -3507,19 +3521,19 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajaxGetVehicle",
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#select_transport_loader').addClass('pre_loader');
                     $('#select_transport_loader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#selectVehicle").find("option").not(":first").remove();
                             $("#select_vehicle_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, vehicle) {
+                            $.each(item, function (i, vehicle) {
                                 $("#selectVehicle").append(
                                     $("<option>", {
                                         value: vehicle.id,
@@ -3542,10 +3556,10 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#select_transport_loader').removeClass('pre_loader');
@@ -3628,7 +3642,7 @@
     //     });
     // });
 
-    $(document).on("change", "#fees_master_form #fees_group", function(event) {
+    $(document).on("change", "#fees_master_form #fees_group", function (event) {
         if ($(this).val() == 1 || $(this).val() == 2) {
             $("#fees_master_amount").hide();
         } else {
@@ -3637,8 +3651,8 @@
     });
 
     // fees collect invoice modal
-    $(document).ready(function() {
-        $("body").on("click", ".modalLinkInvoice", function(e) {
+    $(document).ready(function () {
+        $("body").on("click", ".modalLinkInvoice", function (e) {
             e.preventDefault();
             $(".modal-backdrop").show();
             $("#showDetaildModalInvoice").show();
@@ -3663,7 +3677,7 @@
             $.ajax({
                 type: "GET",
                 url: $(this).attr("href"),
-                success: function(data) {
+                success: function (data) {
                     $("#showDetaildModalBodyInvoice").html(data);
                     $("#showDetaildModalInvoice").modal("show");
                 },
@@ -3672,11 +3686,11 @@
     });
 
     //  print student fees report
-    $(document).on("click", ".fees-groups-print", function(event) {
+    $(document).on("click", ".fees-groups-print", function (event) {
         var url = $("#url").val();
         var student_id = $("#student_id").val();
         var sList = "";
-        $("input[type=checkbox]").each(function() {
+        $("input[type=checkbox]").each(function () {
             if (this.checked) {
                 sList += sList == "" ? $(this).val() : "-" + $(this).val();
             }
@@ -3694,13 +3708,13 @@
     $(document).on(
         "click",
         "#fees_groups_invoice_print_button",
-        function(event) {
+        function (event) {
             var url = $("#url").val();
             var student_id = $("#student_id").val();
             //console.log(student_id);
 
             var sList = "";
-            $("input[type=checkbox]").each(function() {
+            $("input[type=checkbox]").each(function () {
                 if (this.checked) {
                     sList += sList == "" ? $(this).val() : "-" + $(this).val();
                 }
@@ -3746,7 +3760,7 @@
     var countEndTime = new Date(count_end_time).getTime();
 
     // Update the count down every 1 second
-    var currentTime = setInterval(function() {
+    var currentTime = setInterval(function () {
         // Get todays date and time
         var countStartTime = new Date().getTime();
 
@@ -3784,13 +3798,13 @@
 
     // search account income expense
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#search_income_expense div#income_div").hide();
         $("#search_income_expense div#expense_div").hide();
     });
 
-    $(document).ready(function() {
-        $("#account-type").on("change", function() {
+    $(document).ready(function () {
+        $("#account-type").on("change", function () {
             if ($(this).val() == "In") {
                 $("#search_income_expense div#income_div").show();
                 $("#search_income_expense div#expense_div").hide();
@@ -3810,7 +3824,7 @@
     // student id card print
 
     //  generate-id-card-print
-    $(document).on("click", ".generate-id-card-print", function(event) {
+    $(document).on("click", ".generate-id-card-print", function (event) {
         var url = $("#url").val();
         var id_card = $("#id_card").val();
 
@@ -3818,7 +3832,7 @@
 
         var sList = "";
         var len = new Array();
-        $("input[type=checkbox]").each(function() {
+        $("input[type=checkbox]").each(function () {
             if (this.checked) {
                 sList += sList == "" ? $(this).val() : "-" + $(this).val();
                 len.push($(this).val());
@@ -3849,13 +3863,13 @@
                                                                                         } */
     });
 
-    $(document).on("click", ".generate-id-card-print-all", function(event) {
+    $(document).on("click", ".generate-id-card-print-all", function (event) {
         var url = $("#url").val();
         var id_card = $("#id_card").val();
         var sList = "";
         var len = new Array();
         if ($(this).prop("checked") == true) {
-            $("input[type=checkbox]").each(function() {
+            $("input[type=checkbox]").each(function () {
                 if ($(this).val() != "") {
                     sList += sList == "" ? $(this).val() : "-" + $(this).val();
                     len.push($(this).val());
@@ -3883,7 +3897,7 @@
         }
     });
 
-    $(document).on("click", "#genearte-id-card-print-button", function(event) {
+    $(document).on("click", "#genearte-id-card-print-button", function (event) {
         var num = $("input[type=checkbox]:checked").length;
 
         if (num == 0) {
@@ -3895,12 +3909,12 @@
     });
 
     //  generate-id-card-print
-    $(document).on("click", ".generate-certificate-print", function(event) {
+    $(document).on("click", ".generate-certificate-print", function (event) {
         var url = $("#url").val();
         var id_card = $("#certificate").val();
         var sList = "";
         var len = new Array();
-        $("input[type=checkbox]").each(function() {
+        $("input[type=checkbox]").each(function () {
             if (this.checked) {
                 sList += sList == "" ? $(this).val() : "-" + $(this).val();
                 len.push($(this).val());
@@ -3931,13 +3945,13 @@
                                                                                         } */
     });
 
-    $(document).on("click", ".generate-certificate-print-all", function(event) {
+    $(document).on("click", ".generate-certificate-print-all", function (event) {
         var url = $("#url").val();
         var id_card = $("#certificate").val();
         var sList = "";
         var len = new Array();
         if ($(this).prop("checked") == true) {
-            $("input[type=checkbox]").each(function() {
+            $("input[type=checkbox]").each(function () {
                 if ($(this).val() != "") {
                     sList += sList == "" ? $(this).val() : "-" + $(this).val();
                     len.push($(this).val());
@@ -3970,7 +3984,7 @@
                                                                                         } */
     });
 
-    $(document).on("click", "#genearte-id-card-print-button", function(event) {
+    $(document).on("click", "#genearte-id-card-print-button", function (event) {
         var num = $("input[type=checkbox]:checked").length;
 
         if (num == 0) {
@@ -3982,8 +3996,8 @@
 
     // Accounts Income Start
     // Add
-    $(document).ready(function() {
-        $("form#add-income select#payment_method").on("change", function() {
+    $(document).ready(function () {
+        $("form#add-income select#payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#bankAccount").removeClass('d-none');
@@ -3994,7 +4008,7 @@
     });
 
     // Update
-    $(document).ready(function() {
+    $(document).ready(function () {
         let methodType = $('form#add-income-update select#payment_method').find(':selected').data('string');
         if (methodType == "Bank") {
             $("#bankAccount").removeClass('d-none');
@@ -4002,7 +4016,7 @@
             $("#bankAccount").addClass('d-none');
         }
 
-        $("form#add-income-update select#payment_method").on("change", function() {
+        $("form#add-income-update select#payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#bankAccount").removeClass('d-none');
@@ -4016,8 +4030,8 @@
 
     //Accounts Expense Start
     //Add
-    $(document).ready(function() {
-        $("form#add-expense select#payment_method").on("change", function() {
+    $(document).ready(function () {
+        $("form#add-expense select#payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#bankAccount").removeClass('d-none');
@@ -4028,7 +4042,7 @@
     });
 
     //Update
-    $(document).ready(function() {
+    $(document).ready(function () {
         let methodType = $('form#add-expense-update select#payment_method').find(':selected').data('string');
         if (methodType == "Bank") {
             $("#bankAccount").removeClass('d-none');
@@ -4036,7 +4050,7 @@
             $("#bankAccount").addClass('d-none');
         }
 
-        $("form#add-expense-update select#payment_method").on("change", function() {
+        $("form#add-expense-update select#payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#bankAccount").removeClass('d-none');
@@ -4049,8 +4063,8 @@
 
     //Inventory Item Receive Start
     // Add
-    $(document).ready(function() {
-        $("#item_receive_payment_method").on("change", function() {
+    $(document).ready(function () {
+        $("#item_receive_payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#itemReceivebankAccount").removeClass('d-none');
@@ -4071,8 +4085,8 @@
 
     //Inventory Item Sell Start
     // Add
-    $(document).ready(function() {
-        $("#item_sell_payment_method_id").on("change", function() {
+    $(document).ready(function () {
+        $("#item_sell_payment_method_id").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#add_item_sell_bankAccount").removeClass('d-none');
@@ -4082,7 +4096,7 @@
         });
     });
     // Update
-    $(document).ready(function() {
+    $(document).ready(function () {
         let methodType = $('#edit_sell_payment_method').find(':selected').data('string');
         if (methodType == "Bank") {
             $("#edit_item_sell_bankAccount").removeClass('d-none');
@@ -4090,7 +4104,7 @@
             $("#edit_item_sell_bankAccount").addClass('d-none');
         }
 
-        $("#edit_sell_payment_method").on("change", function() {
+        $("#edit_sell_payment_method").on("change", function () {
             let methodName = $(this).find(':selected').data('string');
             if (methodName == "Bank") {
                 $("#edit_item_sell_bankAccount").removeClass('d-none');
@@ -4125,7 +4139,7 @@
     // });
 
     // admission query
-    $("#admission-query-store").on("submit", function() {
+    $("#admission-query-store").on("submit", function () {
         var count = 0;
 
         if ($("#admission-query-store #name").val() == "") {
@@ -4175,7 +4189,7 @@
 
     // teacher upload content
 
-    $("#student").on("click", function() {
+    $("#student").on("click", function () {
         if ($(this).is(":checked")) {
             $("#contentDisabledDiv").removeClass("disabledbutton");
             $("#availableClassesDiv").removeClass("disabledbutton");
@@ -4186,7 +4200,7 @@
         }
     });
 
-    $("#all_classes").on("click", function() {
+    $("#all_classes").on("click", function () {
         if ($(this).is(":checked")) {
             $("#contentDisabledDiv").addClass("disabledbutton");
         } else {
@@ -4195,7 +4209,7 @@
     });
 
     // student attenance
-    $("#mark_holiday").on("click", function() {
+    $("#mark_holiday").on("click", function () {
         if ($(this).is(":checked")) {
             $("input:radio").removeAttr("checked");
         } else {
@@ -4204,7 +4218,7 @@
     });
 
     // biometric attendence sell
-    $(document).ready(function() {
+    $(document).ready(function () {
         if (sessionStorage.getItem("bio_role") == 2) {
             $("#search_by_staff_id").css("display", "none");
             $("#search_by_name").css("display", "none");
@@ -4214,8 +4228,8 @@
             $("#selectStaffsDiv ul").find("li").not(":first").remove();
         }
     });
-    $(document).ready(function() {
-        $("body").on("change", "form#biometric #buyer_type", function(e) {
+    $(document).ready(function () {
+        $("body").on("change", "form#biometric #buyer_type", function (e) {
             e.preventDefault();
             var role_id = $(this).val();
             sessionStorage.setItem("bio_role", role_id);
@@ -4249,15 +4263,15 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "staffNameByRole",
-                    success: function(data) {
+                    success: function (data) {
                         var a = "";
-                        $.each(data, function(i, item) {
+                        $.each(data, function (i, item) {
                             if (item.length) {
                                 $("#selectStaffs").find("option").not(":first").remove();
                                 $("#selectStaffsDiv ul").find("li").not(":first").remove();
 
                                 if (role_id == "3") {
-                                    $.each(item, function(i, staffs) {
+                                    $.each(item, function (i, staffs) {
                                         $("#selectStaffs").append(
                                             $("<option>", {
                                                 value: staffs.id,
@@ -4273,7 +4287,7 @@
                                         );
                                     });
                                 } else {
-                                    $.each(item, function(i, staffs) {
+                                    $.each(item, function (i, staffs) {
                                         $("#selectStaffs").append(
                                             $("<option>", {
                                                 value: staffs.id,
@@ -4296,7 +4310,7 @@
                             }
                         });
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("Error:", data);
                     },
                 });
@@ -4305,8 +4319,8 @@
     });
     // inventory sell
 
-    $(document).ready(function() {
-        $("body").on("change", "form#item-sell-form #buyer_type", function(e) {
+    $(document).ready(function () {
+        $("body").on("change", "form#item-sell-form #buyer_type", function (e) {
             e.preventDefault();
             var role_id = $(this).val();
             if (role_id == "2") {
@@ -4337,15 +4351,15 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "staffNameByRole",
-                    success: function(data) {
+                    success: function (data) {
                         var a = "";
-                        $.each(data, function(i, item) {
+                        $.each(data, function (i, item) {
                             if (item.length) {
                                 $("#selectStaffs").find("option").not(":first").remove();
                                 $("#selectStaffsDiv ul").find("li").not(":first").remove();
 
                                 if (role_id == "3") {
-                                    $.each(item, function(i, staffs) {
+                                    $.each(item, function (i, staffs) {
                                         $("#selectStaffs").append(
                                             $("<option>", {
                                                 value: staffs.id,
@@ -4361,7 +4375,7 @@
                                         );
                                     });
                                 } else {
-                                    $.each(item, function(i, staffs) {
+                                    $.each(item, function (i, staffs) {
                                         $("#selectStaffs").append(
                                             $("<option>", {
                                                 value: staffs.id,
@@ -4384,7 +4398,7 @@
                             }
                         });
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("Error:", data);
                     },
                 });
@@ -4393,11 +4407,11 @@
     });
 
     // inventory item  edit
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("body").on(
             "change",
             "form#edit-item-sell-form #buyer_type",
-            function(e) {
+            function (e) {
                 e.preventDefault();
                 var role_id = $(this).val();
                 if (role_id == "2") {
@@ -4443,15 +4457,15 @@
                         data: formData,
                         dataType: "json",
                         url: url + "/" + "staffNameByRole",
-                        success: function(data) {
+                        success: function (data) {
                             var a = "";
-                            $.each(data, function(i, item) {
+                            $.each(data, function (i, item) {
                                 if (item.length) {
                                     $("#selectStaffs").find("option").not(":first").remove();
                                     $("#staff-div ul").find("li").not(":first").remove();
 
                                     if (role_id == "3") {
-                                        $.each(item, function(i, staffs) {
+                                        $.each(item, function (i, staffs) {
                                             $("#selectStaffs").append(
                                                 $("<option>", {
                                                     value: staffs.id,
@@ -4467,7 +4481,7 @@
                                             );
                                         });
                                     } else {
-                                        $.each(item, function(i, staffs) {
+                                        $.each(item, function (i, staffs) {
                                             $("#selectStaffs").append(
                                                 $("<option>", {
                                                     value: staffs.id,
@@ -4490,7 +4504,7 @@
                                 }
                             });
                         },
-                        error: function(data) {
+                        error: function (data) {
                             console.log("Error:", data);
                         },
                     });
@@ -4499,8 +4513,8 @@
         );
     });
 
-    $(document).ready(function() {
-        $("#module_id").on("change", function(e) {
+    $(document).ready(function () {
+        $("#module_id").on("change", function (e) {
             e.preventDefault();
             $('.submit').hide().prop('disabled', true);
 
@@ -4518,9 +4532,9 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "get-translation-terms",
-                success: function(data) {
+                success: function (data) {
                     var appendRow = "";
-                    $.each(data.en_terms, function(key, value) {
+                    $.each(data.en_terms, function (key, value) {
                         console.log(data.terms[key])
                         appendRow = "<tr>";
                         appendRow += "<td>" + value + "</td>";
@@ -4544,15 +4558,15 @@
                     });
                     $('.submit').show().prop('disabled', false);
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
         });
     });
 
-    function checkNul(value, en_value){
-        if(typeof value == "undefined"){
+    function checkNul(value, en_value) {
+        if (typeof value == "undefined") {
             return en_value;
         }
 
@@ -4561,7 +4575,7 @@
 
     // to do list
 
-    $(".complete_task").on("click", function() {
+    $(".complete_task").on("click", function () {
         var url = $("#url").val();
         var id = $(this).val();
         var formData = {
@@ -4575,17 +4589,17 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "remove-to-do",
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     toastr.success(
                         "Operation Success!",
                         "Success Alert", {
-                            iconClass: "customer-info",
-                        }, {
-                            timeOut: 2000,
-                        }
+                        iconClass: "customer-info",
+                    }, {
+                        timeOut: 2000,
+                    }
                     );
                 }, 500);
 
@@ -4593,18 +4607,18 @@
 
                 $("#toDoListsCompleted").children("div").remove();
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("Error:", data);
             },
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".toDoListsCompleted").hide();
     });
 
-    $(document).ready(function() {
-        $("#toDoList").on("click", function(e) {
+    $(document).ready(function () {
+        $("#toDoList").on("click", function (e) {
             e.preventDefault();
 
             if ($(this).hasClass("tr-bg")) {
@@ -4622,8 +4636,8 @@
         });
     });
 
-    $(document).ready(function() {
-        $("#toDoListsCompleted").on("click", function(e) {
+    $(document).ready(function () {
+        $("#toDoListsCompleted").on("click", function (e) {
             e.preventDefault();
 
             if ($(this).hasClass("tr-bg")) {
@@ -4650,7 +4664,7 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "get-to-do-list",
-                success: function(data) {
+                success: function (data) {
                     console.log(data);
 
                     // $.each(data, function(i, array) {
@@ -4658,7 +4672,7 @@
                     // console.log(array);
                     $(".toDoListsCompleted").empty();
 
-                    $.each(data, function(i, value) {
+                    $.each(data, function (i, value) {
                         var appendRow = "";
 
                         appendRow +=
@@ -4673,19 +4687,19 @@
                     });
                     // });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#errorMessage1").hide();
         $("#errorMessage2").hide();
     });
 
-    $("form#item-receive-form").on("submit", function() {
+    $("form#item-receive-form").on("submit", function () {
         var i = 0;
         var u = 0;
         var q = 0;
@@ -4715,7 +4729,7 @@
             forAll++;
         }
 
-        $('form#item-receive-form select[name^="item_id"]').each(function() {
+        $('form#item-receive-form select[name^="item_id"]').each(function () {
             if ($(this).val() == "") {
                 i++;
                 forFalse2++;
@@ -4723,7 +4737,7 @@
             }
         });
 
-        $('form#item-receive-form input[name^="unit_price"]').each(function() {
+        $('form#item-receive-form input[name^="unit_price"]').each(function () {
             if ($(this).val() == "") {
                 u++;
                 forFalse2++;
@@ -4731,7 +4745,7 @@
             }
         });
 
-        $('form#item-receive-form input[name^="quantity"]').each(function() {
+        $('form#item-receive-form input[name^="quantity"]').each(function () {
             if ($(this).val() == "") {
                 q++;
                 forFalse2++;
@@ -4804,7 +4818,7 @@
         }
     });
 
-    $("form#item-sell-form").on("submit", function() {
+    $("form#item-sell-form").on("submit", function () {
         var v = 0;
         var ih = 0;
         var c = 0;
@@ -4856,7 +4870,7 @@
             }
         }
 
-        $('form#item-sell-form select[name^="item_id"]').each(function() {
+        $('form#item-sell-form select[name^="item_id"]').each(function () {
             if ($(this).val() == "") {
                 i++;
                 forFalse2++;
@@ -4864,7 +4878,7 @@
             }
         });
 
-        $('form#item-sell-form input[name^="unit_price"]').each(function() {
+        $('form#item-sell-form input[name^="unit_price"]').each(function () {
             if ($(this).val() == "") {
                 u++;
                 forFalse2++;
@@ -4872,7 +4886,7 @@
             }
         });
 
-        $('form#item-sell-form input[name^="quantity"]').each(function() {
+        $('form#item-sell-form input[name^="quantity"]').each(function () {
             if ($(this).val() == "") {
                 q++;
                 forFalse2++;
@@ -4979,7 +4993,7 @@
         }
     });
 
-    $("#edit-item-sell-form").on("submit", function() {
+    $("#edit-item-sell-form").on("submit", function () {
         var v = 0;
         var c = 0;
         var ih = 0;
@@ -5031,7 +5045,7 @@
             }
         }
 
-        $('form#edit-item-sell-form select[name^="item_id"]').each(function() {
+        $('form#edit-item-sell-form select[name^="item_id"]').each(function () {
             if ($(this).val() == "") {
                 i++;
                 forFalse2++;
@@ -5039,7 +5053,7 @@
             }
         });
 
-        $('form#edit-item-sell-form input[name^="unit_price"]').each(function() {
+        $('form#edit-item-sell-form input[name^="unit_price"]').each(function () {
             if ($(this).val() == "") {
                 u++;
                 forFalse2++;
@@ -5047,7 +5061,7 @@
             }
         });
 
-        $('form#edit-item-sell-form input[name^="quantity"]').each(function() {
+        $('form#edit-item-sell-form input[name^="quantity"]').each(function () {
             if ($(this).val() == "") {
                 q++;
                 forFalse2++;
@@ -5144,16 +5158,16 @@
     });
 
     // student section info for student admission
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#background-color").hide();
         $("#background-image").hide();
-        if($("#background-type").val() == "color"){
+        if ($("#background-type").val() == "color") {
             $("#themeImageDiv").hide();
         }
     });
 
-    $(document).ready(function() {
-        $("#background-type").on("change", function() {
+    $(document).ready(function () {
+        $("#background-type").on("change", function () {
             if ($(this).val() == "") {
                 $("#background-color").hide();
                 $("#background-image").hide();
@@ -5190,24 +5204,24 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "login-access-permission",
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     toastr.success(
                         "Operation Success!",
                         "Success Alert", {
-                            iconClass: "customer-info",
-                        }, {
-                            timeOut: 2000,
-                        }
+                        iconClass: "customer-info",
+                    }, {
+                        timeOut: 2000,
+                    }
                     );
                 }, 500);
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("no");
 
-                setTimeout(function() {
+                setTimeout(function () {
                     toastr.error("Operation Failed!", "Error Alert", {
                         timeOut: 5000,
                     });
@@ -5229,24 +5243,24 @@
             data: formData,
             dataType: "json",
             url: url + "/" + "login-password-reset",
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     toastr.success(
                         "Success! Password has been reset as default 123456",
                         "Success Alert", {
-                            iconClass: "customer-info",
-                        }, {
-                            timeOut: 2000,
-                        }
+                        iconClass: "customer-info",
+                    }, {
+                        timeOut: 2000,
+                    }
                     );
                 }, 500);
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("no");
 
-                setTimeout(function() {
+                setTimeout(function () {
                     toastr.error("Operation Failed!", "Error Alert", {
                         timeOut: 5000,
                     });
@@ -5255,9 +5269,9 @@
         });
     };
 
-    (function() {
-        $(document).ready(function() {
-            $(".switch-input").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch-input").on("change", function () {
                 var id = $(this).closest("tr").siblings().find("#id").val();
                 var role = $(this).closest("tr").siblings().find("#role").val();
                 //   console.log($(this).parents('tr').attr("id"));
@@ -5281,21 +5295,21 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "login-access-permission",
-                    success: function(data) {
-                        setTimeout(function() {
+                    success: function (data) {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         if (data) {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 toastr.error("Operation Failed!", "Error Alert", {
                                     timeOut: 5000,
                                 });
@@ -5307,9 +5321,9 @@
         });
     })();
 
-    (function() {
-        $(document).ready(function() {
-            $(".parent-login-disable").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".parent-login-disable").on("change", function () {
                 var id = $(this).closest("td").find("#ParentID").val();
 
                 if ($(this).is(":checked")) {
@@ -5331,23 +5345,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "login-access-permission",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data);
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         if (data) {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 toastr.error("Operation Failed!", "Error Alert", {
                                     timeOut: 5000,
                                 });
@@ -5359,9 +5373,9 @@
         });
     })();
 
-    (function() {
-        $(document).ready(function() {
-            $(".switch-input2").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch-input2").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "on";
                 } else {
@@ -5379,21 +5393,21 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "api-permission-update",
-                    success: function(data) {
-                        setTimeout(function() {
+                    success: function (data) {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "toast-success",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "toast-success",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Success!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5405,9 +5419,9 @@
     })();
 
     //website button
-    (function() {
-        $(document).ready(function() {
-            $(".switch-website_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch-website_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5425,23 +5439,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-website-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         // console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5452,9 +5466,9 @@
         });
     })();
     //dashboard button
-    (function() {
-        $(document).ready(function() {
-            $(".switch_dashboard_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch_dashboard_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5472,23 +5486,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-dashboard-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         // console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5499,9 +5513,9 @@
         });
     })();
     //report button
-    (function() {
-        $(document).ready(function() {
-            $(".switch_report_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch_report_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5519,23 +5533,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-report-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("no");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5546,9 +5560,9 @@
         });
     })();
     //style button
-    (function() {
-        $(document).ready(function() {
-            $(".switch-style_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch-style_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5566,23 +5580,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-style-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         // console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5593,9 +5607,9 @@
         });
     })();
     //ltl_rtl button
-    (function() {
-        $(document).ready(function() {
-            $(".switch_ltl_rtl_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch_ltl_rtl_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5613,23 +5627,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-ltl_rtl-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         // console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5640,9 +5654,9 @@
         });
     })();
     //language button
-    (function() {
-        $(document).ready(function() {
-            $(".switch_lang_btn").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $(".switch_lang_btn").on("change", function () {
                 if ($(this).is(":checked")) {
                     var status = "1";
                 } else {
@@ -5660,23 +5674,23 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "change-language-btn-status",
-                    success: function(data) {
+                    success: function (data) {
                         location.reload();
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.success(
                                 "Operation Success!",
                                 "Success Alert", {
-                                    iconClass: "customer-info",
-                                }, {
-                                    timeOut: 2000,
-                                }
+                                iconClass: "customer-info",
+                            }, {
+                                timeOut: 2000,
+                            }
                             );
                         }, 500);
                         // console.log(data);
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('no');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             toastr.error("Operation Not Done!", "Error Alert", {
                                 timeOut: 5000,
                             });
@@ -5687,13 +5701,13 @@
         });
     })();
 
-    (function() {
-        $(document).ready(function() {
-            $("#exam_class").on("change", function() {
+    (function () {
+        $(document).ready(function () {
+            $("#exam_class").on("change", function () {
                 var globalType = $("#globalType").val();
                 var formData = {
                     id: $(this).val(),
-                    globalType : globalType,
+                    globalType: globalType,
                 };
 
                 var url = $("#url").val();
@@ -5703,14 +5717,14 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "get-class-subjects",
-                    success: function(data) {
+                    success: function (data) {
                         $("#exam_subejct").empty();
 
                         var appendRow = "";
 
                         appendRow += "<div class='col-lg-12'>";
                         appendRow += "<label>Select Subject *</label>";
-                        $.each(data, function(i, value) {
+                        $.each(data, function (i, value) {
                             appendRow += "<div class='input-effect'>";
                             appendRow +=
                                 "<input type='checkbox' id='subjects_" +
@@ -5734,15 +5748,15 @@
                         console.log(appendRow);
                         $("#exam_subejct").append(appendRow);
                     },
-                    error: function(data) {},
+                    error: function (data) { },
                 });
             });
         });
     })();
 
-    (function() {
-        $(document).ready(function() {
-            $(document).on("change", ".switch-input-staff", function() {
+    (function () {
+        $(document).ready(function () {
+            $(document).on("change", ".switch-input-staff", function () {
                 var id = $(this).closest("tr").attr("id");
                 var staff_id = $(this).val();
                 var id = staff_id;
@@ -5764,15 +5778,15 @@
                     data: formData,
                     dataType: "json",
                     url: url + "/" + "staff-disable-enable",
-                    success: function(data) {
-                        if(data.status == false) {
-                           toastr.error(data.message);
-                           $(".hr_"+id).prop("checked", false);
+                    success: function (data) {
+                        if (data.status == false) {
+                            toastr.error(data.message);
+                            $(".hr_" + id).prop("checked", false);
                         } else {
                             toastr.success("Operation Success!");
                         }
                     },
-                    error: function(data) {
+                    error: function (data) {
                         ajax_error(data);
                     },
                 });
@@ -5782,7 +5796,7 @@
 
     selectSubject = (a) => {
         var exam_types = $("input[name='exams_types[]']:checked")
-            .map(function() {
+            .map(function () {
                 return $(this).val();
             })
             .get();
@@ -5808,7 +5822,7 @@
                 id: a,
                 class_id: $("#exam_class").val(),
                 exam_types: $("input[name='exams_types[]']:checked")
-                    .map(function() {
+                    .map(function () {
                         return $(this).val();
                     })
                     .get(),
@@ -5822,14 +5836,14 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "subject-assign-check",
-                success: function(data) {
+                success: function (data) {
                     console.log(data.length);
                     $("#error-message").empty();
 
                     var div = "";
                     div += "<div class='alert alert-danger'>";
 
-                    $.each(data, function(i, value) {
+                    $.each(data, function (i, value) {
                         div += "This subject already added for " + value + " exam";
                         div += "<br>";
                     });
@@ -5841,7 +5855,7 @@
                         $("#subjects_" + a).prop("checked", false);
                     }
                 },
-                error: function(data) {},
+                error: function (data) { },
             });
         }
     };
@@ -5884,8 +5898,8 @@
     };
 
     // select class
-    $(document).ready(function() {
-        $("#select_academic_year").on("change", function() {
+    $(document).ready(function () {
+        $("#select_academic_year").on("change", function () {
             var url = $("#url").val();
             var formData = {
                 year: $(this).val(),
@@ -5897,13 +5911,13 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "ajax-get-class",
-                success: function(data) {
-                    $.each(data, function(i, item) {
+                success: function (data) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#select_class").find("option").not(":first").remove();
                             $("#select_class_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, class_info) {
+                            $.each(item, function (i, class_info) {
                                 $("#select_class").append(
                                     $("<option>", {
                                         value: class_info.id,
@@ -5926,7 +5940,7 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -5934,8 +5948,8 @@
     });
 
     // fees master find type
-    $(document).ready(function() {
-        $("#infix_class").on("change", function() {
+    $(document).ready(function () {
+        $("#infix_class").on("change", function () {
             var url = $("#url").val();
             // console.log($(this).val());
             var formData = {
@@ -5948,16 +5962,16 @@
                 data: formData,
                 dataType: "json",
                 url: url + "/" + "feescollection/fees-master-section",
-                success: function(data) {
+                success: function (data) {
                     //console.log(data);
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         //console.log(item);
                         if (item.length) {
                             $("#select_fees_type").find("option").not(":first").remove();
                             $("#select_fees_type_div ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, section) {
+                            $.each(item, function (i, section) {
                                 $("#select_fees_type").append(
                                     $("<option>", {
                                         value: section.assign_id,
@@ -5980,7 +5994,7 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
             });
@@ -5988,16 +6002,16 @@
     });
 
     // academic year wise get class
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#academic_year").on(
             "change",
-            function() {
+            function () {
                 var url = $("#url").val();
                 var i = 0;
                 var formData = {
                     id: $(this).val(),
                 };
-                
+
 
                 // get section for student
                 $.ajax({
@@ -6006,21 +6020,21 @@
                     dataType: "json",
                     url: url + "/" + "academic-year-get-class",
 
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('#select_class_loader').addClass('pre_loader');
                         $('#select_class_loader').removeClass('loader');
                     },
 
-                    success: function(data) {
+                    success: function (data) {
                         $("#classSelectStudent").empty().append(
                             $("<option>", {
-                                value:  '',
+                                value: '',
                                 text: window.jsLang('select_class') + ' *',
                             })
                         );
 
                         if (data[0].length) {
-                            $.each(data[0], function(i, className) {
+                            $.each(data[0], function (i, className) {
                                 $("#classSelectStudent").append(
                                     $("<option>", {
                                         value: className.id,
@@ -6028,14 +6042,14 @@
                                     })
                                 );
                             });
-                        } 
+                        }
                         $('#classSelectStudent').niceSelect('update');
                         $('#classSelectStudent').trigger('change');
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log('Error:', data);
                     },
-                    complete: function() {
+                    complete: function () {
                         i--;
                         if (i <= 0) {
                             $('#select_class_loader').removeClass('pre_loader');
@@ -6058,7 +6072,7 @@
     //             var formData = {
     //                 id: $(this).val(),
     //             };
-                
+
 
     //             // get section for student
     //             $.ajax({
@@ -6109,8 +6123,8 @@
     // });
 
     // currency info
-    $(document).ready(function() {
-        $("#uqinue_fine_list").on("change", function() {
+    $(document).ready(function () {
+        $("#uqinue_fine_list").on("change", function () {
             var url = $("#url").val();
             console.log($("#uqinue_fine_list").val());
             if ($("#uqinue_fine_list").val() == "create_new") {
@@ -6152,8 +6166,8 @@
 
 
     // 100 Percent Mark Start
-    $(document).ready(function() {
-        $("#examTypeId").on("change", function() {
+    $(document).ready(function () {
+        $("#examTypeId").on("change", function () {
             var url = $("#url").val();
             var i = 0;
 
@@ -6167,18 +6181,18 @@
                 dataType: "json",
                 url: url + "/" + "ajaxSubjectFromExamType",
 
-                beforeSend: function() {
+                beforeSend: function () {
                     $('#selectExamBaseSubjectLoader').addClass('pre_loader');
                     $('#selectExamBaseSubjectLoader').removeClass('loader');
                 },
-                success: function(data) {
+                success: function (data) {
                     var a = "";
-                    $.each(data, function(i, item) {
+                    $.each(data, function (i, item) {
                         if (item.length) {
                             $("#examTypeBaseSubjectList").find("option").not(":first").remove();
                             $("#examTypeBaseSubjectDiv ul").find("li").not(":first").remove();
 
-                            $.each(item, function(i, subjects) {
+                            $.each(item, function (i, subjects) {
                                 console.log(subjects);
                                 $("#examTypeBaseSubjectList").append(
                                     $("<option>", {
@@ -6201,10 +6215,10 @@
                         }
                     });
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log("Error:", data);
                 },
-                complete: function() {
+                complete: function () {
                     i--;
                     if (i <= 0) {
                         $('#selectExamBaseSubjectLoader').removeClass('pre_loader');
@@ -6218,241 +6232,174 @@
 
 
 
-        // Globla Assign subject
-        $(document).ready(function() {
-            $("#addNewGlobalSubject").on("click", function() {
-                var url = $("#url").val();
-                var count = $("#assign-subject").children().length;
-                var divCount = count + 1;
-    
-                // get section for student
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: url + "/" + "global-assign-subject-get-by-ajax",
-                    success: function(data) {
-                        var subject_teacher = "";
-                        subject_teacher +=
-                            "<div class='col-lg-12 mb-30' id='assign-subject-" +
-                            divCount +
-                            "'>";
-                        subject_teacher += "<div class='row'>";
-                        subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                        subject_teacher +=
-                            "<select class='primary_select' name='subjects[]' style='display:none'>";
-                        subject_teacher +=
-                            "<option data-display='"+window.jsLang('select_subject')+"'  value=''>"+window.jsLang('select_subject')+"</option>";
-                        $.each(data[0], function(key, subject) {
-                            subject_teacher +=
-                                "<option value=" +
-                                subject.id +
-                                ">" +
-                                subject.subject_name +
-                                "</option>";
-                        });
-                        subject_teacher += "</select>";
-    
-                        subject_teacher +=
-                            "<div class='nice-select primary_select form-control' tabindex='0'>";
-                        subject_teacher += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
-                        subject_teacher +=
-                            "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                        subject_teacher += "<ul class='list'>";
-                        subject_teacher +=
-                            "<li data-value='' data-display='"+window.jsLang('select_subject')+"' class='option selected'>"+window.jsLang('select_subject')+"</li>";
-                        $.each(data[0], function(key, subject) {
-                            subject_teacher +=
-                                "<li data-value=" +
-                                subject.id +
-                                " class='option'>" +
-                                subject.subject_name +
-                                "</li>";
-                        });
-                        subject_teacher += "</ul>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                        subject_teacher +=
-                            "<select class='primary_select form-control' name='teachers[]' style='display:none'>";
-                        subject_teacher +=
-                            "<option data-display='"+window.jsLang('select_teacher')+"' value=''>"+window.jsLang('select_teacher')+"</option>";
-                        $.each(data[1], function(key, teacher) {
-                            subject_teacher +=
-                                "<option value=" +
-                                teacher.id +
-                                ">" +
-                                teacher.full_name +
-                                "</option>";
-                        });
-                        subject_teacher += "</select>";
-                        subject_teacher +=
-                            "<div class='nice-select primary_select form-control' tabindex='0'>";
-                        subject_teacher += "<span class='current'>"+window.jsLang('select_teacher')+"</span>";
-                        subject_teacher +=
-                            "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                        subject_teacher += "<ul class='list'>";
-                        subject_teacher +=
-                            "<li data-value='' data-display='"+window.jsLang('select_teacher')+"' class='option selected'>"+window.jsLang('select_teacher')+"</li>";
-                        $.each(data[1], function(key, teacher) {
-                            subject_teacher +=
-                                "<li data-value=" +
-                                teacher.id +
-                                " class='option'>" +
-                                teacher.full_name +
-                                "</li>";
-                        });
-                        subject_teacher += "</ul>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "<div class='col-lg-2'>";
-                        subject_teacher +=
-                            "<button class='primary-btn icon-only fix-gr-bg' id='removeSubject' onclick='deleteSubject(" +
-                            divCount +
-                            ")' type='button'>";
-                        subject_teacher += "<span class='ti-trash' ></span>";
-                        subject_teacher += "</button>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        $("#assign-subject").append(subject_teacher);
-                    },
-                    error: function(data) {
-                        // console.log("Error:", data);
-                    },
-                });
-            });
-        });
+    // Globla Assign subject
+    $(document).ready(function () {
+        $("#addNewGlobalSubject").on("click", function () {
+            var url = $("#url").val();
+            var count = $("#assign-subject").children().length;
+            var divCount = count + 1;
 
-        //get academic year by school id
-        $(document).ready(function() {
-            $("form#parent-registration #select-school").on("change", function() {
-                var url = $("#url").val();
-        console.log(url);
-                var formData = {
-                    id: $(this).val(),
-                };
-                // get section for student
-                $.ajax({
-                    type: "GET",
-                    data: formData,
-                    dataType: "json",
-                    url: url + "/" + "ajax-get-class-academicyear",
-                    success: function(data) {
-                        console.log(data);
-        
-                        var a = "";
-        
-                        if (data[1].length) {
-                            $("#select-academic-year").find("option").not(":first").remove();
-                            $("#academic-year-div ul").find("li").not(":first").remove();
-        
-                            $.each(data[1], function(i, academicYear) {
-                                $("#select-academic-year").append(
-                                    $("<option>", {
-                                        value: academicYear.id,
-                                        text: academicYear.year,
-                                        text: academicYear.title,
-                                    })
-                                );
-        
-                                $("#academic-year-div ul").append(
-                                    "<li data-value='" +
-                                    academicYear.id +
-                                    "' class='option'>" +
-                                    academicYear.year +
-                                    " [" +
-                                    academicYear.title +
-                                    "]" +
-                                    "</li>"
-                                );
-                            });
-                        } else {
-                            $("#academic-year-div .current").html("SELECT ACADEMIC YEAR *");
-                            $("#select-academic-year").find("option").not(":first").remove();
-                            $("#academic-year-div ul").find("li").not(":first").remove();
-                        }
-                    },
-                    error: function(data) {
-                        // console.log('Error:', data);
-                    },
-                });
-            });
-        });
-
-        //get class by academic & school id
-        $(document).ready(function() {
-            $("form#parent-registration #select-academic-year").on(
-                "change",
-                function() {
-                    var url = $("#url").val();
-                    var i = 0;
-                    var formData = {
-                        id: $(this).val(),
-                    };
-                    // get section for student
-                    $.ajax({
-                        type: "GET",
-                        data: formData,
-                        dataType: "json",
-                        url: url + "/" + "ajax-get-classes",
-        
-                        beforeSend: function() {
-                            $('#select_class_loader').addClass('pre_loader');
-                            $('#select_class_loader').removeClass('loader');
-                        },
-        
-                        success: function(data) {
-                            var a = "";
-                            // $.each(data[0], function (i, item) {
-        
-                            if (data[0].length) {
-                                $("#select-class").find("option").not(":first").remove();
-                                $("#class-div ul").find("li").not(":first").remove();
-        
-                                $.each(data[0], function(i, className) {
-                                    $("#select-class").append(
-                                        $("<option>", {
-                                            value: className.id,
-                                            text: className.class_name,
-                                        })
-                                    );
-        
-                                    $("#class-div ul").append(
-                                        "<li data-value='" +
-                                        className.id +
-                                        "' class='option'>" +
-                                        className.class_name +
-                                        "</li>"
-                                    );
-                                });
-                            } else {
-                                $("#class-div .current").html("SELECT CLASS *");
-                                $("#select-class").find("option").not(":first").remove();
-                                $("#class-div ul").find("li").not(":first").remove();
-                            }
-                        },
-                        error: function(data) {
-                            // console.log('Error:', data);
-                        },
-                        complete: function() {
-                            i--;
-                            if (i <= 0) {
-                                $('#select_class_loader').removeClass('pre_loader');
-                                $('#select_class_loader').addClass('loader');
-                            }
-                        }
+            // get section for student
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: url + "/" + "global-assign-subject-get-by-ajax",
+                success: function (data) {
+                    var subject_teacher = "";
+                    subject_teacher +=
+                        "<div class='col-lg-12 mb-30' id='assign-subject-" +
+                        divCount +
+                        "'>";
+                    subject_teacher += "<div class='row'>";
+                    subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                    subject_teacher +=
+                        "<select class='primary_select' name='subjects[]' style='display:none'>";
+                    subject_teacher +=
+                        "<option data-display='" + window.jsLang('select_subject') + "'  value=''>" + window.jsLang('select_subject') + "</option>";
+                    $.each(data[0], function (key, subject) {
+                        subject_teacher +=
+                            "<option value=" +
+                            subject.id +
+                            ">" +
+                            subject.subject_name +
+                            "</option>";
                     });
-                }
-            );
+                    subject_teacher += "</select>";
+
+                    subject_teacher +=
+                        "<div class='nice-select primary_select form-control' tabindex='0'>";
+                    subject_teacher += "<span class='current'>" + window.jsLang('select_subject') + "</span>";
+                    subject_teacher +=
+                        "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
+                    subject_teacher += "<ul class='list'>";
+                    subject_teacher +=
+                        "<li data-value='' data-display='" + window.jsLang('select_subject') + "' class='option selected'>" + window.jsLang('select_subject') + "</li>";
+                    $.each(data[0], function (key, subject) {
+                        subject_teacher +=
+                            "<li data-value=" +
+                            subject.id +
+                            " class='option'>" +
+                            subject.subject_name +
+                            "</li>";
+                    });
+                    subject_teacher += "</ul>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                    subject_teacher +=
+                        "<select class='primary_select form-control' name='teachers[]' style='display:none'>";
+                    subject_teacher +=
+                        "<option data-display='" + window.jsLang('select_teacher') + "' value=''>" + window.jsLang('select_teacher') + "</option>";
+                    $.each(data[1], function (key, teacher) {
+                        subject_teacher +=
+                            "<option value=" +
+                            teacher.id +
+                            ">" +
+                            teacher.full_name +
+                            "</option>";
+                    });
+                    subject_teacher += "</select>";
+                    subject_teacher +=
+                        "<div class='nice-select primary_select form-control' tabindex='0'>";
+                    subject_teacher += "<span class='current'>" + window.jsLang('select_teacher') + "</span>";
+                    subject_teacher +=
+                        "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
+                    subject_teacher += "<ul class='list'>";
+                    subject_teacher +=
+                        "<li data-value='' data-display='" + window.jsLang('select_teacher') + "' class='option selected'>" + window.jsLang('select_teacher') + "</li>";
+                    $.each(data[1], function (key, teacher) {
+                        subject_teacher +=
+                            "<li data-value=" +
+                            teacher.id +
+                            " class='option'>" +
+                            teacher.full_name +
+                            "</li>";
+                    });
+                    subject_teacher += "</ul>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "<div class='col-lg-2'>";
+                    subject_teacher +=
+                        "<button class='primary-btn icon-only fix-gr-bg' id='removeSubject' onclick='deleteSubject(" +
+                        divCount +
+                        ")' type='button'>";
+                    subject_teacher += "<span class='ti-trash' ></span>";
+                    subject_teacher += "</button>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "</div>";
+                    subject_teacher += "</div>";
+                    $("#assign-subject").append(subject_teacher);
+                },
+                error: function (data) {
+                    // console.log("Error:", data);
+                },
+            });
         });
+    });
 
-        // get section by academic , school and class id 
+    //get academic year by school id
+    $(document).ready(function () {
+        $("form#parent-registration #select-school").on("change", function () {
+            var url = $("#url").val();
+            console.log(url);
+            var formData = {
+                id: $(this).val(),
+            };
+            // get section for student
+            $.ajax({
+                type: "GET",
+                data: formData,
+                dataType: "json",
+                url: url + "/" + "ajax-get-class-academicyear",
+                success: function (data) {
+                    console.log(data);
 
-        $(document).ready(function() {
-            $("form#parent-registration #select-class").on("change", function() {
+                    var a = "";
+
+                    if (data[1].length) {
+                        $("#select-academic-year").find("option").not(":first").remove();
+                        $("#academic-year-div ul").find("li").not(":first").remove();
+
+                        $.each(data[1], function (i, academicYear) {
+                            $("#select-academic-year").append(
+                                $("<option>", {
+                                    value: academicYear.id,
+                                    text: academicYear.year,
+                                    text: academicYear.title,
+                                })
+                            );
+
+                            $("#academic-year-div ul").append(
+                                "<li data-value='" +
+                                academicYear.id +
+                                "' class='option'>" +
+                                academicYear.year +
+                                " [" +
+                                academicYear.title +
+                                "]" +
+                                "</li>"
+                            );
+                        });
+                    } else {
+                        $("#academic-year-div .current").html("SELECT ACADEMIC YEAR *");
+                        $("#select-academic-year").find("option").not(":first").remove();
+                        $("#academic-year-div ul").find("li").not(":first").remove();
+                    }
+                },
+                error: function (data) {
+                    // console.log('Error:', data);
+                },
+            });
+        });
+    });
+
+    //get class by academic & school id
+    $(document).ready(function () {
+        $("form#parent-registration #select-academic-year").on(
+            "change",
+            function () {
                 var url = $("#url").val();
                 var i = 0;
-        
                 var formData = {
                     id: $(this).val(),
                 };
@@ -6461,88 +6408,155 @@
                     type: "GET",
                     data: formData,
                     dataType: "json",
-                    url: url + "/" + "ajax-get-sections",
-        
-                    beforeSend: function() {
-                        $('#select_section_loader').addClass('pre_loader');
-                        $('#select_section_loader').removeClass('loader');
+                    url: url + "/" + "ajax-get-classes",
+
+                    beforeSend: function () {
+                        $('#select_class_loader').addClass('pre_loader');
+                        $('#select_class_loader').removeClass('loader');
                     },
-        
-                    success: function(data) {
-                        console.log(data);
-        
+
+                    success: function (data) {
                         var a = "";
                         // $.each(data[0], function (i, item) {
-        
-                        if (data.length) {
-                            $("#select-section").find("option").not(":first").remove();
-                            $("#section-div ul").find("li").not(":first").remove();
-        
-                            $.each(data, function(i, className) {
-                                $("#select-section").append(
+
+                        if (data[0].length) {
+                            $("#select-class").find("option").not(":first").remove();
+                            $("#class-div ul").find("li").not(":first").remove();
+
+                            $.each(data[0], function (i, className) {
+                                $("#select-class").append(
                                     $("<option>", {
                                         value: className.id,
-                                        text: className.section_name,
+                                        text: className.class_name,
                                     })
                                 );
-        
-                                $("#section-div ul").append(
+
+                                $("#class-div ul").append(
                                     "<li data-value='" +
                                     className.id +
                                     "' class='option'>" +
-                                    className.section_name +
+                                    className.class_name +
                                     "</li>"
                                 );
                             });
                         } else {
-                            $("#section-div .current").html("SELECT SECTION *");
-                            $("#select-section").find("option").not(":first").remove();
-                            $("#section-div ul").find("li").not(":first").remove();
+                            $("#class-div .current").html("SELECT CLASS *");
+                            $("#select-class").find("option").not(":first").remove();
+                            $("#class-div ul").find("li").not(":first").remove();
                         }
                     },
-                    error: function(data) {
+                    error: function (data) {
                         // console.log('Error:', data);
                     },
-                    complete: function() {
+                    complete: function () {
                         i--;
                         if (i <= 0) {
-                            $('#select_section_loader').removeClass('pre_loader');
-                            $('#select_section_loader').addClass('loader');
+                            $('#select_class_loader').removeClass('pre_loader');
+                            $('#select_class_loader').addClass('loader');
                         }
                     }
                 });
+            }
+        );
+    });
+
+    // get section by academic , school and class id 
+
+    $(document).ready(function () {
+        $("form#parent-registration #select-class").on("change", function () {
+            var url = $("#url").val();
+            var i = 0;
+
+            var formData = {
+                id: $(this).val(),
+            };
+            // get section for student
+            $.ajax({
+                type: "GET",
+                data: formData,
+                dataType: "json",
+                url: url + "/" + "ajax-get-sections",
+
+                beforeSend: function () {
+                    $('#select_section_loader').addClass('pre_loader');
+                    $('#select_section_loader').removeClass('loader');
+                },
+
+                success: function (data) {
+                    console.log(data);
+
+                    var a = "";
+                    // $.each(data[0], function (i, item) {
+
+                    if (data.length) {
+                        $("#select-section").find("option").not(":first").remove();
+                        $("#section-div ul").find("li").not(":first").remove();
+
+                        $.each(data, function (i, className) {
+                            $("#select-section").append(
+                                $("<option>", {
+                                    value: className.id,
+                                    text: className.section_name,
+                                })
+                            );
+
+                            $("#section-div ul").append(
+                                "<li data-value='" +
+                                className.id +
+                                "' class='option'>" +
+                                className.section_name +
+                                "</li>"
+                            );
+                        });
+                    } else {
+                        $("#section-div .current").html("SELECT SECTION *");
+                        $("#select-section").find("option").not(":first").remove();
+                        $("#section-div ul").find("li").not(":first").remove();
+                    }
+                },
+                error: function (data) {
+                    // console.log('Error:', data);
+                },
+                complete: function () {
+                    i--;
+                    if (i <= 0) {
+                        $('#select_section_loader').removeClass('pre_loader');
+                        $('#select_section_loader').addClass('loader');
+                    }
+                }
             });
         });
-        
-
-        $(document).ready(function() {
-
-            if ($('#sidebar .sidebar_menu').find('.mm-active').length > 0) {
-                const activeMenu = $('#sidebar .sidebar_menu').find('.mm-active').offset().top;
-                const mainMenu = $('#sidebar .sidebar_menu').offset().top;
-                const totalOffset = activeMenu - mainMenu;
-                $('#sidebar.sidebar').animate({
-                    scrollTop: totalOffset + 'px',
-                }, 1000);
-            }
+    });
 
 
-            // Collapse Dashboard chart
-            $(".dashboard_collapse").on("click", function(){
-                $(this).toggleClass('flip-icon')
-            });
+    $(document).ready(function () {
+
+        if ($('#sidebar .sidebar_menu').find('.mm-active').length > 0) {
+            const activeMenu = $('#sidebar .sidebar_menu').find('.mm-active').offset().top;
+            const mainMenu = $('#sidebar .sidebar_menu').offset().top;
+            const totalOffset = activeMenu - mainMenu;
+            $('#sidebar.sidebar').animate({
+                scrollTop: totalOffset + 'px',
+            }, 1000);
+        }
+
+
+        // Collapse Dashboard chart
+        $(".dashboard_collapse").on("click", function () {
+            $(this).toggleClass('flip-icon')
         });
+    });
 
-        $(document).ready(function() {
-            if ($('#sidebar .sidebar_menu').find('.mm-active').length > 0) {
-                const activeMenu = $('#sidebar .sidebar_menu').find('.mm-active').offset().top;
-                const mainMenu = $('#sidebar .sidebar_menu').offset().top;
-                const totalOffset = activeMenu - mainMenu;
-                $('#sidebar.sidebar').animate({
-                    scrollTop: totalOffset + 'px',
-                }, 1000);
-            }
-        });
+    $(document).ready(function () {
+        if ($('#sidebar .sidebar_menu').find('.mm-active').length > 0) {
+            const activeMenu = $('#sidebar .sidebar_menu').find('.mm-active').offset().top;
+            const mainMenu = $('#sidebar .sidebar_menu').offset().top;
+            const totalOffset = activeMenu - mainMenu;
+            $('#sidebar.sidebar').animate({
+                scrollTop: totalOffset + 'px',
+            }, 1000);
+        }
+    });
 
     ("use strict");
 })(jQuery);

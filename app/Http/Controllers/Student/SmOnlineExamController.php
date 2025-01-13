@@ -294,14 +294,16 @@ class SmOnlineExamController extends Controller
 
         if ($question_info->type == 'MI') {
             if ($question_info->answer_typr != 'radio') {
-
                 if ($ajax_post->submit_value == null) {
                     $user_post = OnlineExamStudentAnswerMarking::where('online_exam_id', $online_exam_id)
                         ->where('student_id', $student_id)
                         ->where('question_id', $question_id)
                         ->where('user_answer', $ajax_post->option)
                         ->first();
-                    DB::table('online_exam_student_answer_markings')->delete($user_post->id);
+                    if($user_post)
+                    {
+                        DB::table('online_exam_student_answer_markings')->delete($user_post->id);
+                    }
                 }
                 $wrong = OnlineExamStudentAnswerMarking::where('user_answer', '=', '')->delete();
             }
@@ -378,7 +380,7 @@ class SmOnlineExamController extends Controller
 
                 if ($question_bank->type == "T") {
                     if ($online_exam_info->auto_mark == 1) {
-                        $this->autoMarking($request->online_exam_id, $student->id, $question_id, $request['trueOrFalse_' . $question_id], $request);
+                        $this->autoMarking( $request->online_exam_id, $student->id, $question_id, $request['trueOrFalse_' . $question_id], $request);
                     } else {
                         $this->questionAnswer($request->online_exam_id, $student->id, $question_id, $request['trueOrFalse_' . $question_id], $request);
                     }
@@ -556,6 +558,7 @@ class SmOnlineExamController extends Controller
             } catch (\Exception $e) {
                 Log::error("File: " . $e->getFile() . "Line: " . $e->getLine() . "Message: " . $e->getMessage());
                 DB::rollBack();
+                dd($e);
             }
             Toastr::error('Operation Failed', 'Failed');
             return redirect()->back();

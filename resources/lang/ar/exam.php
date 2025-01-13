@@ -372,5 +372,8 @@ return [
     'PDF Exam Result' => 'نتيجة الامتحان بصيغة PDF',
     'average_passing_examination' => 'الامتحان المعدل للنجاح المتوسط',
     'is_average_passing_exam' => 'هل هو امتحان معدل للنجاح؟',
+    'video' => 'video',
+    'question_video' => 'فيديو السؤال',
+    
 
 ];

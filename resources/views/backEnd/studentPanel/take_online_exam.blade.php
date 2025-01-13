@@ -103,8 +103,15 @@
                                                         <img class="mb-20" width="100%" height="auto"
                                                             src="{{ asset($question->questionBank->question_image) }}"
                                                             alt="">
+                                                    @elseif(@$question->questionBank->type == 'VI')
+                                                        <video class="mb-20" width="60%" height="auto" controls>
+                                                            <source
+                                                                src="{{ asset($question->questionBank->question_video) }}"
+                                                                type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
                                                     @endif
-                                                    @if (@$question->questionBank->type == 'M')
+                                                    @if (@$question->questionBank->type == 'M' || @$question->questionBank->type == 'VI')
                                                         @php
                                                             @$multiple_options = @$question->questionBank->questionMu;
                                                             @$number_of_option = @$question->questionBank->questionMu->count();
@@ -208,7 +215,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        @if (isset($assigned_questions) && is_array($assigned_questions) && count($assigned_questions) > 0)
+                                        @if (isset($assigned_questions) && !$assigned_questions->isEmpty())
                                             <tr>
                                                 <td colspan="2" class="text-center pt-4">
                                                     <button class="primary-btn fix-gr-bg">

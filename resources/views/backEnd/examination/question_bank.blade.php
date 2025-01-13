@@ -249,7 +249,8 @@
                                                     <option value="MI" {{ isset($bank) ? ($bank->type == 'MI' ? 'selected' : 'disabled') : '' }}>
                                                         @lang('exam.multiple_image')</option>
                                                 @endif
-                                        
+                                                <option value="VI" {{ isset($bank) ? ($bank->type == 'VI' ? 'selected' : 'disabled') : '' }}>
+                                                    @lang('exam.video')</option>
                                                 <option value="M" {{ isset($bank) ? ($bank->type == 'M' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.multiple_choice')</option>
                                                 <option value="T" {{ isset($bank) ? ($bank->type == 'T' ? 'selected' : 'disabled') : '' }}>
@@ -267,7 +268,7 @@
                                     <div class="row mt-15">
                                         <div class="col-lg-12">
                                             <div class="primary_input">
-                                                <label class="primary_input_label" for="">@lang('exam.question') <span
+                                                <label class="primary_input_label" for="" >@lang('exam.question') <span
                                                         class="text-danger"> *</span></label>
                                                 <textarea class="primary_input_field form-control{{ $errors->has('question') ? ' is-invalid' : '' }}" cols="0"
                                                     rows="4" name="question">{{ isset($bank) ? $bank->question : (old('question') != '' ? old('question') : '') }}</textarea>
@@ -305,7 +306,7 @@
                                                 $multiple_choice = '';
                                             }
                                         } else {
-                                            if ($bank->type == 'M' || old('question_type') == 'M') {
+                                            if ($bank->type == 'M' || $bank->type == 'VI' || old('question_type') == 'M' || old('question_type') == 'VI') {
                                                 $multiple_choice = '';
                                             }
                                         }
@@ -337,13 +338,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     @php
                                         if (!isset($bank)) {
                                             if (old('question_type') == 'M') {
                                                 $multiple_options = '';
                                             }
                                         } else {
-                                            if ($bank->type == 'M' || old('question_type') == 'M') {
+                                            if ($bank->type == 'M' || $bank->type == 'VI' || old('question_type') == 'M') {
                                                 $multiple_options = '';
                                             }
                                         }
@@ -355,7 +357,7 @@
                                             $multiple_options = [];
 
                                             if (isset($bank)) {
-                                                if ($bank->type == 'M') {
+                                                if ($bank->type == 'M' || $bank->type == 'VI') {
                                                     $multiple_options = $bank->questionMu;
                                                 }
                                             }
@@ -460,6 +462,7 @@
                                             }
                                         }
                                     @endphp
+                                    {{-- Multi Image --}}
                                     <div class="multiple-image-section mt-20"
                                         id="{{ isset($multiple_image) ? $multiple_image : 'multiple-image-section' }}">
 
@@ -592,6 +595,32 @@
                                         </div>
                                     </div>
 
+                                    {{-- Video --}}
+                                    <div class="row no-gutters input-right-icon mb-20 mt-2" id="@if(!isset($bank) && !is_null(@$bank?->question_video)) question-video @endif">
+                                        <div class="col">
+                                            <div class="primary_input">
+                                                <input
+                                                    class="primary_input_field form-control {{ $errors->has('question_video') ? ' is-invalid' : '' }}"
+                                                    readonly="true" type="file" name="question_video"
+                                                    placeholder="{{ isset($bank->question_video) && @$bank->question_video != '' ? getFilePath3(@$bank->question_video) : trans('exam.question_video') . ' *' }}  "
+                                                    id="placeholderUploadContent">
+                                                    <video class="mb-20" width="40%" height="auto" controls>
+                                                        <source
+                                                            src="{{ asset($bank->question_video) }}"
+                                                            type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+
+                                                @if ($errors->has('question_video'))
+                                                    <span class="text-danger">
+                                                        {{ $errors->first('question_video') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        {{-- <code>(jpg,png,jpeg,pdf,doc,docx,mp4,mp3 are allowed for upload)</code> --}}
+                                    </div>
                                     {{-- End Multiple Images Question --}}
                                     {{ Form::close() }}
 
@@ -667,6 +696,8 @@
                                                             {{ 'Multiple Choice' }}
                                                         @elseif($bank->type == 'T')
                                                             {{ 'True False' }}
+                                                        @elseif($bank->type == 'VI')
+                                                            {{ 'Video'}}  
                                                         @elseif($bank->type == 'MI')
                                                             {{ 'Multiple Image Choice' }}
                                                         @else
