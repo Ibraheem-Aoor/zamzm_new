@@ -3380,11 +3380,13 @@
 
     $(document).ready(function () {
         $("#question_bank div#multiple-choice").hide();
-        $("#question_bank div#question-video").hide();
+        $("#question-video").hide();
         $("#question_bank div#true-false").hide();
         $("#question_bank div#multiple-image-section").hide();
         $("#question_bank div#fill-in-the-blanks").hide();
         $("#question_bank div#multiple-options").html("");
+        $("#question-video").hide();
+
     });
 
     $(document).on("change", "#question-type", function (event) {
@@ -3393,40 +3395,42 @@
 
         if (question_type == "") {
             $("#question_bank div#multiple-choice").hide();
-            $("#question_bank div#question-video").hide();
+            $("#question-video").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
             $("#question_bank div#multiple-options").html("");
         } else if (question_type == "M") {
             $("#question_bank div#multiple-choice").show();
+            $("#question-video").hide();
+
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
         } else if (question_type == "VI") {
             $("#question_bank div#multiple-choice").show();
-            $("#question_bank div#question-video").show();
+            $("#question-video").show();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
         }
         else if (question_type == "T") {
             $("#question_bank div#multiple-choice").hide();
-            $("#question_bank div#question-video").hide();
+            $("#question-video").hide();
             $("#question_bank div#true-false").show();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").hide();
             $("#question_bank div#multiple-options").html("");
         } else if (question_type == "MI") {
             $("#question_bank div#multiple-choice").hide();
-            $("#question_bank div#question-video").hide();
+            $("#question-video").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").show();
             $("#question_bank div#fill-in-the-blanks").hide();
             $("#question_bank div#multiple-options").html("");
         } else {
             $("#question_bank div#multiple-choice").hide();
-            $("#question_bank div#question-video").hide();
+            $("#question-video").hide();
             $("#question_bank div#true-false").hide();
             $("#question_bank div#multiple-image-section").hide();
             $("#question_bank div#fill-in-the-blanks").show();

@@ -52,7 +52,7 @@
                                         @else
                                             @lang('exam.add_question_bank')
                                         @endif
-    
+
                                     </h3>
                                 </div>
 
@@ -101,105 +101,116 @@
                                             @endif
                                         </div>
                                     </div>
-                                    @if(moduleStatusCheck('University'))
-                                            @if(isset($editData))
-                                                @includeIf('university::common.session_faculty_depart_academic_semester_level',
+                                    @if (moduleStatusCheck('University'))
+                                        @if (isset($editData))
+                                            @includeIf(
+                                                'university::common.session_faculty_depart_academic_semester_level',
                                                 [
-                                                    'required' => ['USN', 'UD', 'UA', 'US', 'USL','USEC'],
-                                                    'hide'=>['USUB'],
-                                                    'div'=>'col-lg-12','row'=>1,'mt'=>'mt-0' ,'subject'=>false, 
-                                                ])
-                                            @else
-                                                @includeIf('university::common.session_faculty_depart_academic_semester_level',
-                                                [
-                                                    'required' => ['USN', 'UD', 'UA', 'US', 'USL','USEC'],
-                                                    'hide'=>['USUB'],
-                                                    'div'=>'col-lg-12','row'=>1,'mt'=>'mt-0' ,'subject'=>false, 
-                                                    'multipleSelect' => 1,
-                                                ])
-                                            @endif
-                                        
-                                    @else 
-                                    <div class="row mt-15">
-                                        <div class="col-lg-12">
-                                            <label class="primary_input_label" for="">
-                                                {{ __('common.class') }}
-                                                <span class="text-danger"> *</span>
-                                            </label>
-                                            <select
-                                                class="primary_select form-control {{ $errors->has('class') ? ' is-invalid' : '' }}"
-                                                id="class_id_email_sms" name="class">
-                                                <option data-display="@lang('common.select_class') *" value="">
-                                                    @lang('common.select_class') *</option>
-                                                @foreach ($classes as $class)
-                                                    @if (isset($bank))
-                                                        <option value="{{ $class->id }}"
-                                                            {{ $bank->class_id == $class->id ? 'selected' : '' }}>
-                                                            {{ $class->class_name }}</option>
-                                                    @else
-                                                        <option value="{{ $class->id }}"
-                                                            {{ old('class') != '' ? (old('class') == $class->id ? 'selected' : '') : '' }}>
-                                                            {{ $class->class_name }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            @if ($errors->has('class'))
-                                                <span class="text-danger invalid-select" role="alert">
-                                                    {{ $errors->first('class') }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-15">
-                                        @if (!isset($bank))
-                                            <div class="col-lg-12" id="selectSectionsDiv">
-                                                <div class="primary_input">
-                                                    <label class="primary_input_label"
-                                                        for="">{{ __('common.section') }} <span
-                                                            class="text-danger"> *</span></label>
-                                                    <select name="section[]" id="selectMultiSections" multiple="multiple"
-                                                        class="multypol_check_select active position-relative">
-
-                                                    </select>
-                                                </div>
-                                                @if ($errors->has('section'))
-                                                    <span class="text-danger invalid-select" role="alert">
-                                                        {{ $errors->first('section') }}
-                                                    </span>
-                                                @endif
-                                            </div>
+                                                    'required' => ['USN', 'UD', 'UA', 'US', 'USL', 'USEC'],
+                                                    'hide' => ['USUB'],
+                                                    'div' => 'col-lg-12',
+                                                    'row' => 1,
+                                                    'mt' => 'mt-0',
+                                                    'subject' => false,
+                                                ]
+                                            )
                                         @else
-                                            <div class="col-lg-12" id="select_section_div">
-                                                <label class="primary_input_label"
-                                                    for="">{{ __('common.section') }} <span class="text-danger">
-                                                        *</span></label>
+                                            @includeIf(
+                                                'university::common.session_faculty_depart_academic_semester_level',
+                                                [
+                                                    'required' => ['USN', 'UD', 'UA', 'US', 'USL', 'USEC'],
+                                                    'hide' => ['USUB'],
+                                                    'div' => 'col-lg-12',
+                                                    'row' => 1,
+                                                    'mt' => 'mt-0',
+                                                    'subject' => false,
+                                                    'multipleSelect' => 1,
+                                                ]
+                                            )
+                                        @endif
+                                    @else
+                                        <div class="row mt-15">
+                                            <div class="col-lg-12">
+                                                <label class="primary_input_label" for="">
+                                                    {{ __('common.class') }}
+                                                    <span class="text-danger"> *</span>
+                                                </label>
                                                 <select
-                                                    class="primary_select form-control{{ $errors->has('section') ? ' is-invalid' : '' }} select_section"
-                                                    id="select_section" name="section">
-                                                    <option data-display="@lang('common.select_section') *" value="">
-                                                        @lang('common.select_section') *</option>
-                                                    @foreach ($sections as $section)
+                                                    class="primary_select form-control {{ $errors->has('class') ? ' is-invalid' : '' }}"
+                                                    id="class_id_email_sms" name="class">
+                                                    <option data-display="@lang('common.select_class') *" value="">
+                                                        @lang('common.select_class') *</option>
+                                                    @foreach ($classes as $class)
                                                         @if (isset($bank))
-                                                            <option value="{{ $section->id }}"
-                                                                {{ $bank->section_id == $section->id ? 'selected' : '' }}>
-                                                                {{ $section->section_name }}</option>
+                                                            <option value="{{ $class->id }}"
+                                                                {{ $bank->class_id == $class->id ? 'selected' : '' }}>
+                                                                {{ $class->class_name }}</option>
+                                                        @else
+                                                            <option value="{{ $class->id }}"
+                                                                {{ old('class') != '' ? (old('class') == $class->id ? 'selected' : '') : '' }}>
+                                                                {{ $class->class_name }}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>
-                                                <div class="pull-right loader loader_style" id="select_section_loader">
-                                                    <img class="loader_img_style"
-                                                        src="{{ asset('public/backEnd/img/demo_wait.gif') }}"
-                                                        alt="loader">
-                                                </div>
-                                                @if ($errors->has('section'))
+                                                @if ($errors->has('class'))
                                                     <span class="text-danger invalid-select" role="alert">
-                                                        {{ $errors->first('section') }}
+                                                        {{ $errors->first('class') }}
                                                     </span>
                                                 @endif
                                             </div>
-                                        @endif
-                                    </div>
+                                        </div>
+
+                                        <div class="row mt-15">
+                                            @if (!isset($bank))
+                                                <div class="col-lg-12" id="selectSectionsDiv">
+                                                    <div class="primary_input">
+                                                        <label class="primary_input_label"
+                                                            for="">{{ __('common.section') }} <span
+                                                                class="text-danger"> *</span></label>
+                                                        <select name="section[]" id="selectMultiSections"
+                                                            multiple="multiple"
+                                                            class="multypol_check_select active position-relative">
+
+                                                        </select>
+                                                    </div>
+                                                    @if ($errors->has('section'))
+                                                        <span class="text-danger invalid-select" role="alert">
+                                                            {{ $errors->first('section') }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <div class="col-lg-12" id="select_section_div">
+                                                    <label class="primary_input_label"
+                                                        for="">{{ __('common.section') }} <span
+                                                            class="text-danger">
+                                                            *</span></label>
+                                                    <select
+                                                        class="primary_select form-control{{ $errors->has('section') ? ' is-invalid' : '' }} select_section"
+                                                        id="select_section" name="section">
+                                                        <option data-display="@lang('common.select_section') *" value="">
+                                                            @lang('common.select_section') *</option>
+                                                        @foreach ($sections as $section)
+                                                            @if (isset($bank))
+                                                                <option value="{{ $section->id }}"
+                                                                    {{ $bank->section_id == $section->id ? 'selected' : '' }}>
+                                                                    {{ $section->section_name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="pull-right loader loader_style" id="select_section_loader">
+                                                        <img class="loader_img_style"
+                                                            src="{{ asset('public/backEnd/img/demo_wait.gif') }}"
+                                                            alt="loader">
+                                                    </div>
+                                                    @if ($errors->has('section'))
+                                                        <span class="text-danger invalid-select" role="alert">
+                                                            {{ $errors->first('section') }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        </div>
                                     @endif
                                     <div class="row mt-15">
                                         {{-- <div class="col-lg-12">
@@ -241,21 +252,28 @@
                                                 {{ __('exam.question_type') }}
                                                 <span class="text-danger"> *</span>
                                             </label>
-                                            <select class="primary_select form-control{{ $errors->has('question_type') ? ' is-invalid' : '' }}" name="question_type" id="question-type">
+                                            <select
+                                                class="primary_select form-control{{ $errors->has('question_type') ? ' is-invalid' : '' }}"
+                                                name="question_type" id="question-type">
                                                 <option data-display="@lang('exam.question_type') *" value="">
                                                     @lang('exam.question_type') *</option>
-                                        
+
                                                 @if (moduleStatusCheck('MultipleImageQuestion') == true)
-                                                    <option value="MI" {{ isset($bank) ? ($bank->type == 'MI' ? 'selected' : 'disabled') : '' }}>
+                                                    <option value="MI"
+                                                        {{ isset($bank) ? ($bank->type == 'MI' ? 'selected' : 'disabled') : '' }}>
                                                         @lang('exam.multiple_image')</option>
                                                 @endif
-                                                <option value="VI" {{ isset($bank) ? ($bank->type == 'VI' ? 'selected' : 'disabled') : '' }}>
+                                                <option value="VI"
+                                                    {{ isset($bank) ? ($bank->type == 'VI' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.video')</option>
-                                                <option value="M" {{ isset($bank) ? ($bank->type == 'M' ? 'selected' : 'disabled') : '' }}>
+                                                <option value="M"
+                                                    {{ isset($bank) ? ($bank->type == 'M' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.multiple_choice')</option>
-                                                <option value="T" {{ isset($bank) ? ($bank->type == 'T' ? 'selected' : 'disabled') : '' }}>
+                                                <option value="T"
+                                                    {{ isset($bank) ? ($bank->type == 'T' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.true_false')</option>
-                                                <option value="F" {{ isset($bank) ? ($bank->type == 'F' ? 'selected' : 'disabled') : '' }}>
+                                                <option value="F"
+                                                    {{ isset($bank) ? ($bank->type == 'F' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.fill_in_the_blanks')</option>
                                             </select>
                                             @if ($errors->has('group'))
@@ -268,7 +286,7 @@
                                     <div class="row mt-15">
                                         <div class="col-lg-12">
                                             <div class="primary_input">
-                                                <label class="primary_input_label" for="" >@lang('exam.question') <span
+                                                <label class="primary_input_label" for="">@lang('exam.question') <span
                                                         class="text-danger"> *</span></label>
                                                 <textarea class="primary_input_field form-control{{ $errors->has('question') ? ' is-invalid' : '' }}" cols="0"
                                                     rows="4" name="question">{{ isset($bank) ? $bank->question : (old('question') != '' ? old('question') : '') }}</textarea>
@@ -306,7 +324,12 @@
                                                 $multiple_choice = '';
                                             }
                                         } else {
-                                            if ($bank->type == 'M' || $bank->type == 'VI' || old('question_type') == 'M' || old('question_type') == 'VI') {
+                                            if (
+                                                $bank->type == 'M' ||
+                                                $bank->type == 'VI' ||
+                                                old('question_type') == 'M' ||
+                                                old('question_type') == 'VI'
+                                            ) {
                                                 $multiple_choice = '';
                                             }
                                         }
@@ -338,14 +361,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     @php
                                         if (!isset($bank)) {
                                             if (old('question_type') == 'M') {
                                                 $multiple_options = '';
                                             }
                                         } else {
-                                            if ($bank->type == 'M' || $bank->type == 'VI' || old('question_type') == 'M') {
+                                            if (
+                                                $bank->type == 'M' ||
+                                                $bank->type == 'VI' ||
+                                                old('question_type') == 'M'
+                                            ) {
                                                 $multiple_options = '';
                                             }
                                         }
@@ -596,7 +623,7 @@
                                     </div>
 
                                     {{-- Video --}}
-                                    <div class="row no-gutters input-right-icon mb-20 mt-2" id="@if(!isset($bank) && !is_null(@$bank?->question_video)) question-video @endif">
+                                    <div class="row no-gutters input-right-icon mb-20 mt-2" id="@if(!isset($bank)) question-video @endif">
                                         <div class="col">
                                             <div class="primary_input">
                                                 <input
@@ -604,12 +631,13 @@
                                                     readonly="true" type="file" name="question_video"
                                                     placeholder="{{ isset($bank->question_video) && @$bank->question_video != '' ? getFilePath3(@$bank->question_video) : trans('exam.question_video') . ' *' }}  "
                                                     id="placeholderUploadContent">
+                                                @isset($bank)
                                                     <video class="mb-20" width="40%" height="auto" controls>
-                                                        <source
-                                                            src="{{ asset($bank->question_video) }}"
-                                                            type="video/mp4">
+                                                        <source src="{{ asset($bank->question_video) }}" type="video/mp4">
                                                         Your browser does not support the video tag.
                                                     </video>
+                                                @endisset
+
 
                                                 @if ($errors->has('question_video'))
                                                     <span class="text-danger">
@@ -618,7 +646,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
+
                                         {{-- <code>(jpg,png,jpeg,pdf,doc,docx,mp4,mp3 are allowed for upload)</code> --}}
                                     </div>
                                     {{-- End Multiple Images Question --}}
@@ -626,7 +654,10 @@
 
                                     @php
                                         $tooltip = '';
-                                        if (userPermission('question-bank-store') || userPermission('question-bank-edit')) {
+                                        if (
+                                            userPermission('question-bank-store') ||
+                                            userPermission('question-bank-edit')
+                                        ) {
                                             $tooltip = '';
                                         } else {
                                             $tooltip = 'You have no permission to add';
@@ -662,7 +693,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <x-table>
@@ -670,7 +701,7 @@
                                         <thead>
                                             <tr>
                                                 <th>@lang('exam.group')</th>
-                                                @if(moduleStatusCheck('University'))
+                                                @if (moduleStatusCheck('University'))
                                                     <th> @lang('university::un.semester_label') (@lang('common.section'))</th>
                                                 @else
                                                     <th>@lang('common.class_Sec')</th>
@@ -680,15 +711,20 @@
                                                 <th>@lang('common.action')</th>
                                             </tr>
                                         </thead>
-    
+
                                         <tbody>
                                             @foreach ($banks as $bank)
                                                 <tr>
-                                                    <td>{{ $bank->questionGroup != '' ? $bank->questionGroup->title : '' }}</td>
-                                                    @if(moduleStatusCheck('University'))
-                                                        <td>{{ $bank->unSemesterLabel != '' ? $bank->unSemesterLabel->name : '' }} ({{ $bank->section != '' ? $bank->section->section_name : '' }})</td>
+                                                    <td>{{ $bank->questionGroup != '' ? $bank->questionGroup->title : '' }}
+                                                    </td>
+                                                    @if (moduleStatusCheck('University'))
+                                                        <td>{{ $bank->unSemesterLabel != '' ? $bank->unSemesterLabel->name : '' }}
+                                                            ({{ $bank->section != '' ? $bank->section->section_name : '' }})
+                                                        </td>
                                                     @else
-                                                        <td>{{ $bank->class != '' ? $bank->class->class_name : '' }} ({{ $bank->section != '' ? $bank->section->section_name : '' }})</td>
+                                                        <td>{{ $bank->class != '' ? $bank->class->class_name : '' }}
+                                                            ({{ $bank->section != '' ? $bank->section->section_name : '' }})
+                                                        </td>
                                                     @endif
                                                     <td>{{ $bank->question }}</td>
                                                     <td>
@@ -697,7 +733,7 @@
                                                         @elseif($bank->type == 'T')
                                                             {{ 'True False' }}
                                                         @elseif($bank->type == 'VI')
-                                                            {{ 'Video'}}  
+                                                            {{ 'Video' }}
                                                         @elseif($bank->type == 'MI')
                                                             {{ 'Multiple Image Choice' }}
                                                         @else
@@ -727,7 +763,7 @@
                                                                 <button type="button" class="close"
                                                                     data-dismiss="modal">&times;</button>
                                                             </div>
-    
+
                                                             <div class="modal-body">
                                                                 <div class="text-center">
                                                                     <h4>@lang('common.are_you_sure_to_delete')</h4>

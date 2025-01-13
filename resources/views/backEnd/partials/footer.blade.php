@@ -142,7 +142,7 @@
 
 <script src="{{asset('public/backEnd/')}}/js/main.js"></script>
 
-<script src="{{asset('public/backEnd/')}}/js/custom.js?v=1.0.0"></script>
+<script src="{{asset('public/backEnd/')}}/js/custom.js?v=1.1.1"></script>
 <script src="{{asset('public/')}}/js/registration_custom.js"></script>
 <script src="{{asset('public/backEnd/')}}/js/developer.js"></script>
 <script src="{{url('Modules\Wallet\Resources\assets\js\wallet.js')}}"></script>

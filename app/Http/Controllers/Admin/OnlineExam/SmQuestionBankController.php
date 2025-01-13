@@ -273,9 +273,7 @@ class SmQuestionBankController extends Controller
         if (moduleStatusCheck('University')) {
             return $this->universityQuestionBankStore($request);
         } else {
-
             try {
-
                 if ($request->question_type != 'M' && $request->question_type != 'MI' && $request->question_type != 'VI') {
                     foreach ($request->section as $section) {
                         $online_question = new SmQuestionBank();
@@ -351,7 +349,7 @@ class SmQuestionBankController extends Controller
                             }
                         }
 
-                       
+
 
                         foreach ($request->section as $section) {
                             $online_question = new SmQuestionBank();
@@ -363,7 +361,6 @@ class SmQuestionBankController extends Controller
                             $online_question->question = $request->question;
                             $online_question->answer_type = $request->answer_type;
                             $online_question->question_image = $fileName;
-                            $online_question->question_video = $videoFileName;
                             if ($request->question_type == 'MI') {
                                 $online_question->number_of_option = $request->number_of_optionImg;
                             } else {
@@ -421,7 +418,8 @@ class SmQuestionBankController extends Controller
                             });
                         }
                         $file = $request->file('question_video');
-                        if (($request->file('question_video') != "") ) {
+                        $videoFileName = null;
+                        if (($request->file('question_video') != "")) {
                             $videoFileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
                             $file->move('public/uploads/upload_contents/', $videoFileName);
                             $videoFileName = 'public/uploads/upload_contents/' . $videoFileName;
@@ -707,7 +705,7 @@ class SmQuestionBankController extends Controller
             return $this->universityBankUpdate($request, $id);
         } else {
             try {
-                if ($request->question_type != 'M' && $request->question_type != 'MI') {
+                if ($request->question_type != 'M' && $request->question_type != 'MI' && $request->question_type != 'VI') {
                     $online_question = SmQuestionBank::find($id);
                     $online_question->type = $request->question_type;
                     $online_question->q_group_id = $request->group;
@@ -736,11 +734,7 @@ class SmQuestionBankController extends Controller
                             $table->string('question_image')->nullable();
                         });
                     }
-                    if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
-                        Schema::table('sm_question_banks', function ($table) {
-                            $table->mediumText('question_video')->nullable();
-                        });
-                    }
+
 
                     try {
 
@@ -791,14 +785,7 @@ class SmQuestionBankController extends Controller
                         }
                         $online_question->question_image = $fileName;
 
-                        if (($request->file('question_video') != "") && (in_array($file->getMimeType(), $imagemimes))) {
-                            $videoFileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                            $file->move('public/uploads/upload_contents/', $videoFileName);
-                            $videoFileName = 'public/uploads/upload_contents/' . $videoFileName;
-                        }
 
-
-                        $online_question->question_video = $videoFileName ?? null;
 
                         $online_question->number_of_option = $request->number_of_option;
                         $online_question->school_id = Auth::user()->school_id;
@@ -853,7 +840,22 @@ class SmQuestionBankController extends Controller
                 } else {
                     DB::beginTransaction();
                     try {
+                        if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
+                            Schema::table('sm_question_banks', function ($table) {
+                                $table->mediumText('question_video')->nullable();
+                            });
+                        }
+                        $videoFileName= null;
+                        $file = ($request->file('question_video'));
+                        if (($request->file('question_video') != "") ) {
+                            $videoFileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                            $file->move('public/uploads/upload_contents/', $videoFileName);
+                            $videoFileName = 'public/uploads/upload_contents/' . $videoFileName;
+                        }
+
+
                         $online_question = SmQuestionBank::find($id);
+                        $online_question->question_video =  $online_question->type == 'VI' ? (isset($videoFileName) ? $videoFileName : $online_question->question_video) : $online_question->question_video  ;
                         $online_question->type = $request->question_type;
                         $online_question->q_group_id = $request->group;
                         $online_question->class_id = $request->class;
