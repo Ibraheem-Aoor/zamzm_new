@@ -409,14 +409,15 @@ class SmQuestionBankController extends Controller
                     Toastr::error('Operation Failed', 'Failed');
                     return redirect()->back();
                 } else {
+                    if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
+                        Schema::table('sm_question_banks', function ($table) {
+                            $table->mediumText('question_video')->nullable();
+                        });
+                    }   
                     DB::beginTransaction();
 
                     try {
-                        if (!Schema::hasColumn('sm_question_banks', 'question_video')) {
-                            Schema::table('sm_question_banks', function ($table) {
-                                $table->mediumText('question_video')->nullable();
-                            });
-                        }
+                       
                         $file = $request->file('question_video');
                         $videoFileName = null;
                         if (($request->file('question_video') != "")) {
