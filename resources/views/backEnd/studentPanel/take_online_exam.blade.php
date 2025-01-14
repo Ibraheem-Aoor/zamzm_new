@@ -110,6 +110,33 @@
                                                                 type="video/mp4">
                                                             Your browser does not support the video tag.
                                                         </video>
+                                                    @elseif(@$question->questionBank->type == 'MT')
+                                                        <div class="matching-option mb-3">
+                                                            @php
+                                                                $mt_options = json_decode(
+                                                                    $question->questionBank->questionMu->first()->title,
+                                                                    true,
+                                                                );
+                                                                $match_questions = array_keys($mt_options);
+                                                                $match_answers = array_values($mt_options);
+                                                                shuffle($match_answers);
+                                                            @endphp
+                                                            @foreach ($match_questions as $q)
+                                                                <div class="d-flex align-items-center">
+                                                                    <input type="text" name="match_questions[]"
+                                                                        class="form-control" required
+                                                                        value="{{ $q }}" disabled>
+                                                                    &nbsp;
+                                                                    <select name="match_answers[]" id="match_answers"
+                                                                        class="form-control">
+                                                                        @foreach ($match_answers as $answer)
+                                                                            <option value="{{ $answer }}">
+                                                                                {{ $answer }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
                                                     @endif
                                                     @if (@$question->questionBank->type == 'M' || @$question->questionBank->type == 'VI')
                                                         @php
@@ -184,6 +211,7 @@
                                                                     for="false_{{ @$question->question_bank_id }}">False</label>
                                                             </div>
                                                         </div>
+                                                    @elseif($question->questionBank->type == 'MT')
                                                     @else
                                                         <div class="row">
                                                             <div class="col-10">
@@ -250,29 +278,40 @@
                 submit_value = $(this).val();
             }
 
-            $.ajax({
-                url: "{{ route('ajax_student_online_exam_submit') }}",
-                method: "GET",
-                data: {
-                    online_exam_id: online_exam_id,
-                    question_id: question_id,
-                    option: option,
-                    submit_value: submit_value,
-                },
-                success: function(result) {
-                    // console.log(result);
-                    if (result.type == 'warning') {
-                        toastr.warning(result.message, result.title, {
-                            timeOut: 5000
-                        })
-                    } else {
-                        // toastr.success(result.message, result.title, {
-                        //     timeOut: 5000
-                        // })
-                    }
+            // Add this to your existing JavaScript
+            document.querySelectorAll('[id^="match_answers"]').forEach(select => {
+                select.addEventListener('change', function() {
+                    const questionId = this.closest('.matching-option').dataset.questionId;
+                    const matchQuestions = Array.from(this.closest('.matching-option')
+                            .querySelectorAll('input[name="match_questions[]"]'))
+                        .map(input => input.value);
+                    const matchAnswers = Array.from(this.closest('.matching-option')
+                            .querySelectorAll('select[name="match_answers[]"]'))
+                        .map(select => select.value);
 
-                }
-            })
+                    let pairs = {};
+                    matchQuestions.forEach((question, index) => {
+                        pairs[question] = matchAnswers[index];
+                    });
+
+                    $.ajax({
+                        url: "{{ route('ajax_student_online_exam_submit') }}",
+                        method: "GET",
+                        data: {
+                            online_exam_id: $('#online_exam_id').val(),
+                            question_id: questionId,
+                            submit_value: JSON.stringify(pairs)
+                        },
+                        success: function(result) {
+                            if (result.type == 'warning') {
+                                toastr.warning(result.message, result.title, {
+                                    timeOut: 5000
+                                });
+                            }
+                        }
+                    });
+                });
+            });
 
         });
 

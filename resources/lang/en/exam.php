@@ -374,4 +374,11 @@ return [
     'is_average_passing_exam' => 'Is Average Passing Exam',
     'video' => 'Video',
     'question_video' => 'Question Video',
+    'all_match_questions_required' => 'All matching questions are required',
+    'all_match_answers_required' => 'All matching answers are required',
+    'match_questions.*.array' => 'Matching questions are not valid',
+    'match_answers.*.array' => 'Matching answers are not valid',
+    'question' => 'Question',
+    'answer' => 'answer',
+    
 ];

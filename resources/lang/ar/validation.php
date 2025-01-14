@@ -143,6 +143,8 @@ return [
     */
 
     'attributes' => [
+        'match_answers' => 'اجابات المطابقة',
+        'match_questions' => 'اسئلة المطابقة',
     ],
 
 ];

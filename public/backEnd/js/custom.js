@@ -3379,64 +3379,55 @@
 
 
     $(document).ready(function () {
+        // Hide all question type divs initially
         $("#question_bank div#multiple-choice").hide();
         $("#question-video").hide();
         $("#question_bank div#true-false").hide();
         $("#question_bank div#multiple-image-section").hide();
         $("#question_bank div#fill-in-the-blanks").hide();
         $("#question_bank div#multiple-options").html("");
-        $("#question-video").hide();
-
+        $("#matching-question").hide();  // Changed to match the selector used in change event
     });
 
     $(document).on("change", "#question-type", function (event) {
         var question_type = $("#question-type").val();
-        console.log(question_type);
 
-        if (question_type == "") {
-            $("#question_bank div#multiple-choice").hide();
-            $("#question-video").hide();
-            $("#question_bank div#multiple-image-section").hide();
-            $("#question_bank div#true-false").hide();
-            $("#question_bank div#fill-in-the-blanks").hide();
-            $("#question_bank div#multiple-options").html("");
-        } else if (question_type == "M") {
-            $("#question_bank div#multiple-choice").show();
-            $("#question-video").hide();
+        // Hide all question type divs first
+        $("#question_bank div#multiple-choice").hide();
+        $("#question-video").hide();
+        $("#question_bank div#multiple-image-section").hide();
+        $("#question_bank div#true-false").hide();
+        $("#question_bank div#fill-in-the-blanks").hide();
+        $("#question_bank div#multiple-options").html("");
+        $("#matching-question").css("display", "none");
 
-            $("#question_bank div#true-false").hide();
-            $("#question_bank div#multiple-image-section").hide();
-            $("#question_bank div#fill-in-the-blanks").hide();
-        } else if (question_type == "VI") {
-            $("#question_bank div#multiple-choice").show();
-            $("#question-video").show();
-            $("#question_bank div#true-false").hide();
-            $("#question_bank div#multiple-image-section").hide();
-            $("#question_bank div#fill-in-the-blanks").hide();
-        }
-        else if (question_type == "T") {
-            $("#question_bank div#multiple-choice").hide();
-            $("#question-video").hide();
-            $("#question_bank div#true-false").show();
-            $("#question_bank div#multiple-image-section").hide();
-            $("#question_bank div#fill-in-the-blanks").hide();
-            $("#question_bank div#multiple-options").html("");
-        } else if (question_type == "MI") {
-            $("#question_bank div#multiple-choice").hide();
-            $("#question-video").hide();
-            $("#question_bank div#true-false").hide();
-            $("#question_bank div#multiple-image-section").show();
-            $("#question_bank div#fill-in-the-blanks").hide();
-            $("#question_bank div#multiple-options").html("");
-        } else {
-            $("#question_bank div#multiple-choice").hide();
-            $("#question-video").hide();
-            $("#question_bank div#true-false").hide();
-            $("#question_bank div#multiple-image-section").hide();
-            $("#question_bank div#fill-in-the-blanks").show();
-            $("#question_bank div#multiple-options").html("");
+
+        // Show appropriate div based on question type
+        switch (question_type) {
+            case "M":
+                $("#question_bank div#multiple-choice").show();
+                break;
+            case "MT":
+                console.log(question_type);
+                $("#matching-question").css("display", "block");
+                break;
+            case "VI":
+                $("#question_bank div#multiple-choice").show();
+                $("#question-video").show();
+                break;
+            case "T":
+                $("#question_bank div#true-false").show();
+                break;
+            case "MI":
+                $("#question_bank div#multiple-image-section").show();
+                break;
+            case "F":
+                $("#question_bank div#fill-in-the-blanks").show();
+                break;
         }
     });
+
+    
 
     $(document).on("click", "#create-option", function (event) {
         $("#question_bank div.multiple-options").html("");

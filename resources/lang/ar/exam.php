@@ -374,6 +374,12 @@ return [
     'is_average_passing_exam' => 'هل هو امتحان معدل للنجاح؟',
     'video' => 'video',
     'question_video' => 'فيديو السؤال',
+    'all_match_questions_required' => 'جميع الاسئلة المطابقة مطلوبة',
+    'all_match_answers_required' => 'جميع ااجابات المطابقة مطلوبة',
+    'match_questions.*.array' => 'اسئلة المطابقة غير صحيحة',
+    'match_answers.*.array' => 'اسئلة المطابقة غير صحيحة',
+    'question' => 'سؤال',
+    'answer' => 'إجابة',
     
 
 ];

@@ -723,7 +723,7 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
         Route::get('question-bank', 'Admin\OnlineExam\SmQuestionBankController@index')->name('question-bank')->middleware('userRolePermission:question-bank');
         Route::post('question-bank', 'Admin\OnlineExam\SmQuestionBankController@store')->name('question-bank-store')->middleware('userRolePermission:question-bank-store');
         Route::get('question-bank/{id}', 'Admin\OnlineExam\SmQuestionBankController@show')->name('question-bank-edit')->middleware('userRolePermission:question-bank-edit');
-        Route::put('question-bank/{id}', 'Admin\OnlineExam\SmQuestionBankController@update')->name('question-bank-update')->middleware('userRolePermission:question-bank-edit');
+        Route::post('question-bank/{id}', 'Admin\OnlineExam\SmQuestionBankController@update')->name('question-bank-update')->middleware('userRolePermission:question-bank-edit');
         Route::delete('question-bank/{id}', 'Admin\OnlineExam\SmQuestionBankController@destroy')->name('question-bank-delete')->middleware('userRolePermission:question-bank-delete');
 
 

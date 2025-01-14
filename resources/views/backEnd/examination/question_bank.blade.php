@@ -9,6 +9,52 @@
             top: 20px !important;
         }
     </style>
+    <!-- CSS Styles -->
+    <style>
+        .matching-question .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .matching-question .card-header {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+        }
+
+        .matching-question .card-body {
+            padding: 15px;
+        }
+
+        .matching-option {
+            position: relative;
+        }
+
+        .remove-pair {
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+
+        .primary-btn.fix-gr-bg {
+            background: #415094;
+            border: 1px solid #415094;
+            color: #ffffff;
+        }
+
+        #matching-question {
+            display: none;
+            /* Ensure it's hidden by default */
+        }
+
+        .remove-matching-pair {
+            margin-top: 5px;
+        }
+
+        .matching-pair-row {
+            margin-bottom: 15px;
+        }
+    </style>
+    {{-- Toastr Css --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endpush
 @section('mainContent')
     <section class="sms-breadcrumb mb-20">
@@ -57,11 +103,11 @@
                                 </div>
 
                                 @if (isset($bank))
-                                    {{ Form::open(['class' => 'form-horizontal', 'files' => true, 'route' => ['question-bank-update', $bank->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'id' => 'question_bank']) }}
+                                    {{ Form::open(['class' => 'form-horizontal custom-form', 'files' => true, 'route' => ['question-bank-update', $bank->id], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'question_bank']) }}
                                 @else
                                     @if (userPermission('question-bank-store'))
                                         {{ Form::open([
-                                            'class' => 'form-horizontal',
+                                            'class' => 'form-horizontal custom-form',
                                             'files' => true,
                                             'route' => 'question-bank-store',
                                             'method' => 'POST',
@@ -266,6 +312,9 @@
                                                 <option value="VI"
                                                     {{ isset($bank) ? ($bank->type == 'VI' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.video')</option>
+                                                <option value="MT"
+                                                    {{ isset($bank) ? ($bank->type == 'MT' ? 'selected' : 'disabled') : '' }}>
+                                                    @lang('exam.match')</option>
                                                 <option value="M"
                                                     {{ isset($bank) ? ($bank->type == 'M' ? 'selected' : 'disabled') : '' }}>
                                                     @lang('exam.multiple_choice')</option>
@@ -650,10 +699,111 @@
                                                 @endif
                                         </div>
                                     </div>
-
-                                    {{-- <code>(jpg,png,jpeg,pdf,doc,docx,mp4,mp3 are allowed for upload)</code> --}}
                                 </div>
+
                                 {{-- End Multiple Images Question --}}
+                                <div class="matching-question @if (isset($bank) && $bank->type == 'MT') d-block @endif"
+                                    id="matching-question">
+                                    <div class="row mt-15">
+                                        <div class="col-lg-12">
+                                            <div class="input-effect">
+                                                <div class="row">
+                                                    <!-- Left Column -->
+                                                    <div class="col-lg-5">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5>{{ __('exam.question') }}</h5>
+                                                            </div>
+                                                            <div class="card-body" id="left-options">
+                                                                <div class="matching-option mb-3">
+                                                                    @if (isset($bank) && $bank->type == 'MT')
+                                                                        @php
+                                                                            $mt_options = json_decode(
+                                                                                $bank->questionMu->first()->title,
+                                                                                true,
+                                                                            );
+                                                                        @endphp
+                                                                        @foreach ($mt_options as $q => $answer)
+                                                                            <div class="d-flex align-items-center">
+                                                                                <input type="text"
+                                                                                    name="match_questions[]"
+                                                                                    class="form-control" required value="{{ $q }}">
+                                                                                <button type="button"
+                                                                                    class="btn btn-danger ml-2 remove-pair d-none">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div class="d-flex align-items-center">
+                                                                            <input type="text"
+                                                                                name="match_questions[]"
+                                                                                class="form-control" required>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger ml-2 remove-pair d-none">
+                                                                                <i class="fas fa-times"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right Column -->
+                                                    <div class="col-lg-5">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <h5>{{ __('exam.answer') }}</h5>
+                                                            </div>
+                                                            <div class="card-body" id="right-options">
+                                                                <div class="matching-option mb-3">
+                                                                    @if (isset($bank) && $bank->type == 'MT')
+                                                                        @php
+                                                                            $mt_options = json_decode(
+                                                                                $bank->questionMu->first()->title,
+                                                                                true,
+                                                                            );
+                                                                        @endphp
+                                                                        @foreach ($mt_options as $q => $answer)
+                                                                            <div class="d-flex align-items-center">
+                                                                                <input type="text"
+                                                                                    name="match_answers[]"
+                                                                                    class="form-control" required value="{{ $answer }}">
+                                                                                <button type="button"
+                                                                                    class="btn btn-danger ml-2 remove-pair d-none">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div class="d-flex align-items-center">
+                                                                            <input type="text"
+                                                                                name="match_answers[]"
+                                                                                class="form-control" required>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger ml-2 remove-pair d-none">
+                                                                                <i class="fas fa-times"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Add Button Column -->
+                                                    <div class="col-lg-2">
+                                                        <button type="button" class="primary-btn fix-gr-bg"
+                                                            id="add-matching-pair">
+                                                            <i class="fas fa-plus"></i> Add Pair
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{ Form::close() }}
 
                                 @php
@@ -737,6 +887,8 @@
                                                         {{ 'Video' }}
                                                     @elseif($bank->type == 'MI')
                                                         {{ 'Multiple Image Choice' }}
+                                                    @elseif($bank->type == 'MT')
+                                                        {{ 'Match Question' }}
                                                     @else
                                                         {{ 'Fill in the blank' }}
                                                     @endif
@@ -869,14 +1021,81 @@
             }
         }
     });
-
-    $(document).on('click', '.common-checkbox', function() {
-        var answer_type = $("#answer_type").val();
-        if (answer_type == 'radio') {
-            $('.common-checkbox').prop('checked', false);
-            $(this).prop('checked', true)
-        }
-    })
 </script>
+<!-- JavaScript for Matching Question Functionality -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeMatchingQuestion();
+    });
+
+    function initializeMatchingQuestion() {
+        // Add event listener for adding new pairs
+        document.getElementById('add-matching-pair').addEventListener('click', addMatchingPair);
+
+        // Add event listeners for existing remove buttons
+        document.querySelectorAll('.remove-pair').forEach(button => {
+            button.addEventListener('click', removePair);
+        });
+    }
+
+    function addMatchingPair() {
+        // Create new option elements
+        const leftOption = createOptionElement('match_questions[]');
+        const rightOption = createOptionElement('match_answers[]');
+
+        // Add to containers
+        document.getElementById('left-options').appendChild(leftOption);
+        document.getElementById('right-options').appendChild(rightOption);
+
+        // Show remove buttons when there's more than one pair
+        updateRemoveButtons();
+    }
+
+    function createOptionElement(name) {
+        const div = document.createElement('div');
+        div.className = 'matching-option mb-3';
+        div.innerHTML = `
+            <div class="d-flex align-items-center">
+                <input type="text" name="${name}" class="form-control" required>
+                <button type="button" class="btn btn-danger ml-2 remove-pair">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+
+        // Add event listener to remove button
+        div.querySelector('.remove-pair').addEventListener('click', removePair);
+
+        return div;
+    }
+
+    function removePair(event) {
+        const optionElement = event.target.closest('.matching-option');
+        const column = optionElement.closest('.card-body');
+        const index = Array.from(column.children).indexOf(optionElement);
+
+        // Remove corresponding elements from both columns
+        document.querySelectorAll('.card-body').forEach(body => {
+            if (body.children[index]) {
+                body.children[index].remove();
+            }
+        });
+
+        // Update remove buttons visibility
+        updateRemoveButtons();
+    }
+
+    function updateRemoveButtons() {
+        const leftOptions = document.getElementById('left-options').children;
+        const removeButtons = document.querySelectorAll('.remove-pair');
+
+        // Show/hide remove buttons based on number of pairs
+        removeButtons.forEach(button => {
+            button.classList.toggle('d-none', leftOptions.length <= 1);
+        });
+    }
+</script>
+<script src="{{ asset('public/backEnd/') }}/js/ajax_handle.js?v=1.1.1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 @endsection
 @include('backEnd.partials.data_table_js')

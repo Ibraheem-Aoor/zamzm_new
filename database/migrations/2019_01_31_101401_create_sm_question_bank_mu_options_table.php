@@ -15,7 +15,7 @@ class CreateSmQuestionBankMuOptionsTable extends Migration
     {
         Schema::create('sm_question_bank_mu_options', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->nullable();
+            $table->longText('title')->nullable();
             $table->tinyInteger('status')->nullable()->comment('0 = false, 1 = correct');
             $table->tinyInteger('active_status')->default(1);
             $table->timestamps();

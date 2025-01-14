@@ -204,6 +204,8 @@
                                             @lang('exam.multiple_image')
                                             @elseif(@$question_bank->type == "F")
                                                 {{'Fill In The Blanks'}}
+                                            @elseif(@$question_bank->type == "MT")
+                                                {{'Match'}}
                                             @else
                                                 {{'True False'}}
                                             @endif
