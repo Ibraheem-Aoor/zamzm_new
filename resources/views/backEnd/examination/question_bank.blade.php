@@ -623,15 +623,15 @@
                                     </div>
 
                                     {{-- Video --}}
-                                    <div class="row no-gutters input-right-icon mb-20 mt-2" id="@if(!isset($bank)) question-video @endif">
+                                    <div class="row no-gutters input-right-icon mb-20 mt-2" @if(!isset($bank)) id="question-video" @endif>
                                         <div class="col">
                                             <div class="primary_input">
+                                                @if(isset($bank) && $bank->type == 'VI')
                                                 <input
                                                     class="primary_input_field form-control {{ $errors->has('question_video') ? ' is-invalid' : '' }}"
                                                     readonly="true" type="file" name="question_video"
                                                     placeholder="{{ isset($bank->question_video) && @$bank->question_video != '' ? getFilePath3(@$bank->question_video) : trans('exam.question_video') . ' *' }}  "
                                                     id="placeholderUploadContent">
-                                                @isset($bank)
                                                     <video class="mb-20" width="40%" height="auto" controls>
                                                         <source src="{{ asset($bank->question_video) }}" type="video/mp4">
                                                         Your browser does not support the video tag.
