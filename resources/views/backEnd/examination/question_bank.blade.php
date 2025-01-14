@@ -623,19 +623,23 @@
                                     </div>
 
                                     {{-- Video --}}
-                                    <div class="row no-gutters input-right-icon mb-20 mt-2" @if(!isset($bank)) id="question-video" @endif>
+                                    <div class="row no-gutters input-right-icon mb-20 mt-2"
+                                        @if (!isset($bank)) id="question-video" @endif>
                                         <div class="col">
                                             <div class="primary_input">
-                                                @if((isset($bank) && $bank->type == 'VI' ) || !isset($bank))
-                                                <input
-                                                    class="primary_input_field form-control {{ $errors->has('question_video') ? ' is-invalid' : '' }}"
-                                                    readonly="true" type="file" name="question_video"
-                                                    placeholder="{{ isset($bank->question_video) && @$bank->question_video != '' ? getFilePath3(@$bank->question_video) : trans('exam.question_video') . ' *' }}  "
-                                                    id="placeholderUploadContent">
-                                                    <video class="mb-20" width="40%" height="auto" controls>
-                                                        <source src="{{ asset($bank->question_video) }}" type="video/mp4">
-                                                        Your browser does not support the video tag.
-                                                    </video>
+                                                @if ((isset($bank) && $bank->type == 'VI') || !isset($bank))
+                                                    <input
+                                                        class="primary_input_field form-control {{ $errors->has('question_video') ? ' is-invalid' : '' }}"
+                                                        readonly="true" type="file" name="question_video"
+                                                        placeholder="{{ isset($bank->question_video) && @$bank->question_video != '' ? getFilePath3(@$bank->question_video) : trans('exam.question_video') . ' *' }}  "
+                                                        id="placeholderUploadContent">
+                                                    @if (isset($bank) && $bank->type == 'VI')
+                                                        <video class="mb-20" width="40%" height="auto" controls>
+                                                            <source src="{{ asset($bank->question_video) }}"
+                                                                type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
                                                 @endisset
 
 
@@ -644,238 +648,235 @@
                                                         {{ $errors->first('question_video') }}
                                                     </span>
                                                 @endif
-                                            </div>
                                         </div>
-
-                                        {{-- <code>(jpg,png,jpeg,pdf,doc,docx,mp4,mp3 are allowed for upload)</code> --}}
                                     </div>
-                                    {{-- End Multiple Images Question --}}
-                                    {{ Form::close() }}
 
-                                    @php
-                                        $tooltip = '';
-                                        if (
-                                            userPermission('question-bank-store') ||
-                                            userPermission('question-bank-edit')
-                                        ) {
-                                            $tooltip = '';
-                                        } else {
-                                            $tooltip = 'You have no permission to add';
-                                        }
-                                    @endphp
+                                    {{-- <code>(jpg,png,jpeg,pdf,doc,docx,mp4,mp3 are allowed for upload)</code> --}}
                                 </div>
-                                <div class="row mt-40">
-                                    <div class="col-lg-12 text-center">
-                                        <button class="primary-btn fix-gr-bg" id="question_bank_submit"
-                                            data-toggle="tooltip" title="{{ $tooltip }}">
-                                            <span class="ti-check"></span>
-                                            @if (isset($bank))
-                                                @lang('exam.update_question')
-                                            @else
-                                                @lang('exam.save_question')
-                                            @endif
+                                {{-- End Multiple Images Question --}}
+                                {{ Form::close() }}
 
-                                        </button>
-                                    </div>
+                                @php
+                                    $tooltip = '';
+                                    if (userPermission('question-bank-store') || userPermission('question-bank-edit')) {
+                                        $tooltip = '';
+                                    } else {
+                                        $tooltip = 'You have no permission to add';
+                                    }
+                                @endphp
+                            </div>
+                            <div class="row mt-40">
+                                <div class="col-lg-12 text-center">
+                                    <button class="primary-btn fix-gr-bg" id="question_bank_submit"
+                                        data-toggle="tooltip" title="{{ $tooltip }}">
+                                        <span class="ti-check"></span>
+                                        @if (isset($bank))
+                                            @lang('exam.update_question')
+                                        @else
+                                            @lang('exam.save_question')
+                                        @endif
+
+                                    </button>
                                 </div>
                             </div>
-                            {{-- <button>test</button> --}}
                         </div>
+                        {{-- <button>test</button> --}}
                     </div>
                 </div>
+            </div>
 
-                <div class="col-lg-8">
-                    <div class="white-box">
-                        <div class="row">
-                            <div class="col-lg-4 no-gutters">
-                                <div class="main-title">
-                                    <h3 class="mb-15">@lang('exam.question_bank_list')</h3>
-                                </div>
+            <div class="col-lg-8">
+                <div class="white-box">
+                    <div class="row">
+                        <div class="col-lg-4 no-gutters">
+                            <div class="main-title">
+                                <h3 class="mb-15">@lang('exam.question_bank_list')</h3>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <x-table>
-                                    <table id="table_id" class="table" cellspacing="0" width="100%">
-                                        <thead>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <x-table>
+                                <table id="table_id" class="table" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>@lang('exam.group')</th>
+                                            @if (moduleStatusCheck('University'))
+                                                <th> @lang('university::un.semester_label') (@lang('common.section'))</th>
+                                            @else
+                                                <th>@lang('common.class_Sec')</th>
+                                            @endif
+                                            <th>@lang('exam.question')</th>
+                                            <th>@lang('common.type')</th>
+                                            <th>@lang('common.action')</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($banks as $bank)
                                             <tr>
-                                                <th>@lang('exam.group')</th>
+                                                <td>{{ $bank->questionGroup != '' ? $bank->questionGroup->title : '' }}
+                                                </td>
                                                 @if (moduleStatusCheck('University'))
-                                                    <th> @lang('university::un.semester_label') (@lang('common.section'))</th>
+                                                    <td>{{ $bank->unSemesterLabel != '' ? $bank->unSemesterLabel->name : '' }}
+                                                        ({{ $bank->section != '' ? $bank->section->section_name : '' }})
+                                                    </td>
                                                 @else
-                                                    <th>@lang('common.class_Sec')</th>
+                                                    <td>{{ $bank->class != '' ? $bank->class->class_name : '' }}
+                                                        ({{ $bank->section != '' ? $bank->section->section_name : '' }})
+                                                    </td>
                                                 @endif
-                                                <th>@lang('exam.question')</th>
-                                                <th>@lang('common.type')</th>
-                                                <th>@lang('common.action')</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            @foreach ($banks as $bank)
-                                                <tr>
-                                                    <td>{{ $bank->questionGroup != '' ? $bank->questionGroup->title : '' }}
-                                                    </td>
-                                                    @if (moduleStatusCheck('University'))
-                                                        <td>{{ $bank->unSemesterLabel != '' ? $bank->unSemesterLabel->name : '' }}
-                                                            ({{ $bank->section != '' ? $bank->section->section_name : '' }})
-                                                        </td>
+                                                <td>{{ $bank->question }}</td>
+                                                <td>
+                                                    @if ($bank->type == 'M')
+                                                        {{ 'Multiple Choice' }}
+                                                    @elseif($bank->type == 'T')
+                                                        {{ 'True False' }}
+                                                    @elseif($bank->type == 'VI')
+                                                        {{ 'Video' }}
+                                                    @elseif($bank->type == 'MI')
+                                                        {{ 'Multiple Image Choice' }}
                                                     @else
-                                                        <td>{{ $bank->class != '' ? $bank->class->class_name : '' }}
-                                                            ({{ $bank->section != '' ? $bank->section->section_name : '' }})
-                                                        </td>
+                                                        {{ 'Fill in the blank' }}
                                                     @endif
-                                                    <td>{{ $bank->question }}</td>
-                                                    <td>
-                                                        @if ($bank->type == 'M')
-                                                            {{ 'Multiple Choice' }}
-                                                        @elseif($bank->type == 'T')
-                                                            {{ 'True False' }}
-                                                        @elseif($bank->type == 'VI')
-                                                            {{ 'Video' }}
-                                                        @elseif($bank->type == 'MI')
-                                                            {{ 'Multiple Image Choice' }}
-                                                        @else
-                                                            {{ 'Fill in the blank' }}
+                                                </td>
+                                                <td>
+                                                    <x-drop-down>
+                                                        @if (userPermission('question-bank-edit'))
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('question-bank-edit', [$bank->id]) }}">@lang('common.edit')</a>
                                                         @endif
-                                                    </td>
-                                                    <td>
-                                                        <x-drop-down>
-                                                            @if (userPermission('question-bank-edit'))
-                                                                <a class="dropdown-item"
-                                                                    href="{{ route('question-bank-edit', [$bank->id]) }}">@lang('common.edit')</a>
-                                                            @endif
-                                                            @if (userPermission('question-bank-delete'))
-                                                                <a class="dropdown-item" data-toggle="modal"
-                                                                    data-target="#deleteQuestionBankModal{{ $bank->id }}"
-                                                                    href="#">@lang('common.delete')</a>
-                                                            @endif
-                                                        </x-drop-down>
-                                                    </td>
-                                                </tr>
-                                                <div class="modal fade admin-query"
-                                                    id="deleteQuestionBankModal{{ $bank->id }}">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">@lang('exam.delete_question_bank')</h4>
-                                                                <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            </div>
+                                                        @if (userPermission('question-bank-delete'))
+                                                            <a class="dropdown-item" data-toggle="modal"
+                                                                data-target="#deleteQuestionBankModal{{ $bank->id }}"
+                                                                href="#">@lang('common.delete')</a>
+                                                        @endif
+                                                    </x-drop-down>
+                                                </td>
+                                            </tr>
+                                            <div class="modal fade admin-query"
+                                                id="deleteQuestionBankModal{{ $bank->id }}">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">@lang('exam.delete_question_bank')</h4>
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal">&times;</button>
+                                                        </div>
 
-                                                            <div class="modal-body">
-                                                                <div class="text-center">
-                                                                    <h4>@lang('common.are_you_sure_to_delete')</h4>
-                                                                </div>
-                                                                <div class="mt-40 d-flex justify-content-between">
-                                                                    <button type="button" class="primary-btn tr-bg"
-                                                                        data-dismiss="modal">@lang('common.cancel')</button>
-                                                                    {{ Form::open(['route' => ['question-bank-delete', $bank->id], 'method' => 'DELETE', 'enctype' => 'multipart/form-data']) }}
-                                                                    <button class="primary-btn fix-gr-bg"
-                                                                        type="submit">@lang('common.delete')</button>
-                                                                    {{ Form::close() }}
-                                                                </div>
+                                                        <div class="modal-body">
+                                                            <div class="text-center">
+                                                                <h4>@lang('common.are_you_sure_to_delete')</h4>
+                                                            </div>
+                                                            <div class="mt-40 d-flex justify-content-between">
+                                                                <button type="button" class="primary-btn tr-bg"
+                                                                    data-dismiss="modal">@lang('common.cancel')</button>
+                                                                {{ Form::open(['route' => ['question-bank-delete', $bank->id], 'method' => 'DELETE', 'enctype' => 'multipart/form-data']) }}
+                                                                <button class="primary-btn fix-gr-bg"
+                                                                    type="submit">@lang('common.delete')</button>
+                                                                {{ Form::close() }}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </x-table>
-                            </div>
+                                            </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </x-table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection
 @include('backEnd.partials.multi_select_js')
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.multiple_images input[type="file"]').change(function() {
-                console.log($(this).closest('.multiple_images').find('.show_file_name'));
-                $(this).closest('.multiple_images').find('.show_file_name').html('File Selected');
+<script>
+    $(document).ready(function() {
+        $('.multiple_images input[type="file"]').change(function() {
+            console.log($(this).closest('.multiple_images').find('.show_file_name'));
+            $(this).closest('.multiple_images').find('.show_file_name').html('File Selected');
 
-            });
         });
-    </script>
-    <script>
-        function uploadImage(id) {
-            $('.show_file_name' + id).html('File Selected');
-            var select_image = $('#question_image' + id);
+    });
+</script>
+<script>
+    function uploadImage(id) {
+        $('.show_file_name' + id).html('File Selected');
+        var select_image = $('#question_image' + id);
 
-            console.log('initial image value ' + select_image.val());
-            var file = document.getElementById("question_image" + id).files[0];
-            if (file) {
-                if (file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jpg") {
-                    var img = new Image();
+        console.log('initial image value ' + select_image.val());
+        var file = document.getElementById("question_image" + id).files[0];
+        if (file) {
+            if (file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jpg") {
+                var img = new Image();
 
-                    img.src = window.URL.createObjectURL(file);
+                img.src = window.URL.createObjectURL(file);
 
-                    img.onload = function() {
-                        var width = img.naturalWidth,
-                            height = img.naturalHeight;
-                        window.URL.revokeObjectURL(img.src);
-                        if (width <= 650 && height <= 450) {
-                            $('.show_file_name' + id).html(file.name.substr(0, 10));
-                        } else {
-                            $('.show_file_name' + id).html("Invalid image dimension");
-                            $('#question_image' + id).val(null);
-                        }
-                    };
-                } else {
-                    $('.show_file_name' + id).html("Invalid file type");
-                    $('#question_image' + id).val(null);
-                }
+                img.onload = function() {
+                    var width = img.naturalWidth,
+                        height = img.naturalHeight;
+                    window.URL.revokeObjectURL(img.src);
+                    if (width <= 650 && height <= 450) {
+                        $('.show_file_name' + id).html(file.name.substr(0, 10));
+                    } else {
+                        $('.show_file_name' + id).html("Invalid image dimension");
+                        $('#question_image' + id).val(null);
+                    }
+                };
+            } else {
+                $('.show_file_name' + id).html("Invalid file type");
+                $('#question_image' + id).val(null);
             }
         }
-    </script>
+    }
+</script>
 
-    <script>
-        $('#question_bank_submit').click(function(e) {
-            e.preventDefault();
-            var ck_box = $('.multiple-images input[type="checkbox"]:checked').length;
-            var answer_type = $("#answer_type").val();
-            var question_type = $("#question-type").val();
+<script>
+    $('#question_bank_submit').click(function(e) {
+        e.preventDefault();
+        var ck_box = $('.multiple-images input[type="checkbox"]:checked').length;
+        var answer_type = $("#answer_type").val();
+        var question_type = $("#question-type").val();
 
-            if (ck_box > 0) {
-                if ($("input[name='images[]']").val() == "") { // alert for "address_" input
-                    toastr.warning('Please Select Valid Option Images', 'Warning', {
+        if (ck_box > 0) {
+            if ($("input[name='images[]']").val() == "") { // alert for "address_" input
+                toastr.warning('Please Select Valid Option Images', 'Warning', {
+                    timeOut: 5000
+                })
+            } else {
+                if (answer_type == 'radio' && ck_box > 1) {
+                    toastr.warning('Please Select One Correct Answer', 'Warning', {
                         timeOut: 5000
                     })
                 } else {
-                    if (answer_type == 'radio' && ck_box > 1) {
-                        toastr.warning('Please Select One Correct Answer', 'Warning', {
-                            timeOut: 5000
-                        })
-                    } else {
-                        $('#question_bank').submit();
-                    }
+                    $('#question_bank').submit();
                 }
+            }
+        } else {
+
+            if (question_type != 'MI') {
+                $('#question_bank').submit();
             } else {
 
-                if (question_type != 'MI') {
-                    $('#question_bank').submit();
-                } else {
-
-                    toastr.warning('Please Select Correct  Answer', 'Warning', {
-                        timeOut: 5000
-                    })
-                }
+                toastr.warning('Please Select Correct  Answer', 'Warning', {
+                    timeOut: 5000
+                })
             }
-        });
+        }
+    });
 
-        $(document).on('click', '.common-checkbox', function() {
-            var answer_type = $("#answer_type").val();
-            if (answer_type == 'radio') {
-                $('.common-checkbox').prop('checked', false);
-                $(this).prop('checked', true)
-            }
-        })
-    </script>
+    $(document).on('click', '.common-checkbox', function() {
+        var answer_type = $("#answer_type").val();
+        if (answer_type == 'radio') {
+            $('.common-checkbox').prop('checked', false);
+            $(this).prop('checked', true)
+        }
+    })
+</script>
 @endsection
 @include('backEnd.partials.data_table_js')
