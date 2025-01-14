@@ -626,7 +626,7 @@
                                     <div class="row no-gutters input-right-icon mb-20 mt-2" @if(!isset($bank)) id="question-video" @endif>
                                         <div class="col">
                                             <div class="primary_input">
-                                                @if(isset($bank) && $bank->type == 'VI')
+                                                @if((isset($bank) && $bank->type == 'VI' ) || !isset($bank))
                                                 <input
                                                     class="primary_input_field form-control {{ $errors->has('question_video') ? ' is-invalid' : '' }}"
                                                     readonly="true" type="file" name="question_video"
