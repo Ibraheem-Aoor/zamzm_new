@@ -405,7 +405,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 mt-35">
-                                                <button type="button" class="primary-btn small fix-gr-bg"
+                                                <button type="button" class="primary-btn medium fix-gr-bg"
                                                     id="create-option">@lang('common.create')</button>
                                             </div>
                                         </div>
@@ -584,7 +584,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto">
-                                                <button class="primary-btn-small-input" type="button">
+                                                <button class="primary-btn-small-input  text-center m-auto p-2" type="button">
                                                     <label class="primary-btn small fix-gr-bg"
                                                         for="upload_content_file">@lang('common.browse')</label>
 
@@ -623,7 +623,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
-                                                <button type="button" class="primary-btn small fix-gr-bg"
+                                                <label class="primary_input_label" for="">
+                                                    &nbsp;
+                                                   </label>
+                                                <button type="button" class="primary-btn meduim fix-gr-bg"
                                                     id="create-image-option">@lang('common.create')</button>
                                             </div>
                                         </div>
@@ -709,10 +712,10 @@
                                             <div class="input-effect">
                                                 <div class="row">
                                                     <!-- Left Column -->
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-6">
                                                         <div class="card">
-                                                            <div class="card-header">
-                                                                <h5>{{ __('exam.question') }}</h5>
+                                                            <div class="card-header" style="background: #415094 !important; color:#ffffff !important;">
+                                                                <h5 class="text-white">{{ __('exam.question') }}</h5>
                                                             </div>
                                                             <div class="card-body" id="left-options">
                                                                 <div class="matching-option mb-3">
@@ -751,10 +754,10 @@
                                                     </div>
 
                                                     <!-- Right Column -->
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-6">
                                                         <div class="card">
-                                                            <div class="card-header">
-                                                                <h5>{{ __('exam.answer') }}</h5>
+                                                            <div class="card-header" style="background: #415094 !important; color:#ffffff !important;">
+                                                                <h5 class="text-white">{{ __('exam.answer') }}</h5>
                                                             </div>
                                                             <div class="card-body" id="right-options">
                                                                 <div class="matching-option mb-3">
@@ -793,10 +796,10 @@
                                                     </div>
 
                                                     <!-- Add Button Column -->
-                                                    <div class="col-lg-2">
-                                                        <button type="button" class="primary-btn fix-gr-bg"
+                                                    <div class="col-lg-12 p-2 text-center">
+                                                        <button type="button" class="primary-btn medium fix-gr-bg p-4"
                                                             id="add-matching-pair">
-                                                            <i class="fas fa-plus"></i> Add Pair
+                                                            <i class="fas fa-plus"></i> 
                                                         </button>
                                                     </div>
                                                 </div>

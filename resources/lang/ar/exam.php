@@ -380,6 +380,10 @@ return [
     'match_answers.*.array' => 'اسئلة المطابقة غير صحيحة',
     'question' => 'سؤال',
     'answer' => 'إجابة',
+    'match' => 'مطابقة',
+    'video' => 'فيديو',
+    'time_remaining' => 'وقت المتبقي',
+    
     
 
 ];

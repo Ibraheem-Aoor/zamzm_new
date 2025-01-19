@@ -380,5 +380,7 @@ return [
     'match_answers.*.array' => 'Matching answers are not valid',
     'question' => 'Question',
     'answer' => 'answer',
+    'match' => 'Match',
+    'time_remaining' => 'Time Remaining',
     
 ];
