@@ -408,25 +408,27 @@
                                                 $question->questionBank->questionMu->first()->title,
                                                 true,
                                             );
-                                            if(isset($mt_options)  && is_array($mt_options) && !empty($mt_options))
-                                            {
+                                            if (isset($mt_options) && is_array($mt_options) && !empty($mt_options)) {
                                                 $match_questions = array_keys($mt_options);
                                                 $match_answers = array_values($mt_options);
                                                 shuffle($match_answers);
                                             }
                                         @endphp
-                                        @foreach ($match_questions as $q)
-                                            <div class="d-flex align-items-center mb-2">
-                                                <input type="text" name="match_questions[]" class="form-control mr-2"
-                                                    required value="{{ $q }}" disabled>
-                                                <select name="match_answers[]" id="match_answers" class="form-control">
-                                                    @foreach ($match_answers as $answer)
-                                                        <option value="{{ $answer }}">{{ $answer }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <br>
-                                        @endforeach
+                                        @isset($match_questions)
+                                            @foreach ($match_questions as $q)
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <input type="text" name="match_questions[]" class="form-control mr-2"
+                                                        required value="{{ $q }}" disabled>
+                                                    <select name="match_answers[]" id="match_answers" class="form-control">
+                                                        @foreach ($match_answers as $answer)
+                                                            <option value="{{ $answer }}">{{ $answer }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <br>
+                                            @endforeach
+                                        @endisset
+
                                     </div>
                                 @else
                                     <div class="fill-blank">
