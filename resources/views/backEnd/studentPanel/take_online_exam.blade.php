@@ -408,9 +408,12 @@
                                                 $question->questionBank->questionMu->first()->title,
                                                 true,
                                             );
-                                            $match_questions = array_keys($mt_options);
-                                            $match_answers = array_values($mt_options);
-                                            shuffle($match_answers);
+                                            if(isset($mt_options)  && is_array($mt_options) && !empty($mt_options))
+                                            {
+                                                $match_questions = array_keys($mt_options);
+                                                $match_answers = array_values($mt_options);
+                                                shuffle($match_answers);
+                                            }
                                         @endphp
                                         @foreach ($match_questions as $q)
                                             <div class="d-flex align-items-center mb-2">
