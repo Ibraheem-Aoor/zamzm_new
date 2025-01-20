@@ -101,7 +101,7 @@ class QuestionBankService
         foreach ($request->match_questions as $index => $match_question) {
             $title[$match_question] = $answers[$index];
         }
-        $this->saveOption($question->id, json_encode($title), true);
+        $this->saveOption($question->id, json_encode($title , JSON_UNESCAPED_UNICODE), true);
         return true;
     }
 
